@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     padding: 24,
   },
   animacao: {
-    width: 300,
+    width:300,
     height: 300,
   },
   mensagem: {
