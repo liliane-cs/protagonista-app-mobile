@@ -35,12 +35,12 @@ export const styles = StyleSheet.create({
     fontSize: 40,
     color: colors.rosaEscuro,
     textAlign: "center",
-    lineHeight: 36,
+    lineHeight: 50,
   },
 
   subtitulo: {
     fontFamily: fonts.body,
-    fontSize: 15,
+    fontSize: 17,
     color: colors.textoSecundario,
     textAlign: "center",
     marginTop: 30,
