@@ -49,6 +49,9 @@ export const darkColors = {
 };
 
 export const fonts = {
-  title: "LibreCaslonText",
-  body: "PlusJakartaSans",
+  title: "LibreCaslonText_700Bold",
+  titleRegular: "LibreCaslonText_400Regular",
+
+  body: "PlusJakartaSans_400Regular",
+  bodyBold: "PlusJakartaSans_700Bold",
 };
