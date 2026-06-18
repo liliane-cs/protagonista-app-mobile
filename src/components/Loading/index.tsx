@@ -1,23 +1,23 @@
 import { View, Text } from "react-native";
 import LottieView from "lottie-react-native";
 import { styles } from "./style";
-import { ErrorMessageProps } from "./types";
-import confusedGirl from "../../assets/animacaoLottie/confused-girl.json";
+import { LoadingProps } from "./types";
+import loadingAnimation from "../../assets/animacaoLottie/loading-mulher.json";
 
-function ErrorMessage({ mensagem }: ErrorMessageProps) {
+function Loading({ mensagem }: LoadingProps) {
   return (
     <View style={styles.container}>
       <LottieView
-        source={confusedGirl}
+        source={loadingAnimation}
         autoPlay
         loop
         style={styles.animacao}
       />
       <Text style={styles.mensagem}>
-        {mensagem || "Algo deu errado. Tente novamente."}
+        {mensagem || "Carregando..."}
       </Text>
     </View>
   );
 }
 
-export default ErrorMessage;
+export default Loading;
