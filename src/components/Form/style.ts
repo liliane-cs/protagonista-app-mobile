@@ -2,35 +2,64 @@ import { StyleSheet } from "react-native";
 import { colors, fonts } from "../../styles/theme";
 
 export const styles = StyleSheet.create({
-  // Título
-  tituloContainer: {
-    alignItems: "center",
-    marginBottom: 24,
-  },
-  titulo: {
-    fontFamily: fonts.title,
-    fontSize: 28,
-    color: colors.titulo,
-    textAlign: "center",
-  },
-  subtitulo: {
-    fontFamily: fonts.body,
-    fontSize: 14,
-    color: colors.textoSecundario,
-    textAlign: "center",
-    marginTop: 8,
+  screen: {
+    flex: 1,
+    backgroundColor: colors.fundo,
   },
 
-  // Input
-  inputContainer: {
-    marginBottom: 16,
+  scroll: {
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: 20,
   },
+
+  card: {
+    backgroundColor: colors.fundoPrincipal,
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+
+  tituloContainer: {
+    alignItems: "center",
+    marginBottom: 36,
+  },
+
+  titulo: {
+    fontFamily: fonts.title,
+    fontWeight: "800",
+    fontSize: 40,
+    color: colors.rosaEscuro,
+    textAlign: "center",
+    lineHeight: 36,
+  },
+
+  subtitulo: {
+    fontFamily: fonts.body,
+    fontSize: 15,
+    color: colors.textoSecundario,
+    textAlign: "center",
+    marginTop: 30,
+    lineHeight: 22,
+  },
+
+  inputContainer: {
+    marginTop: 15,
+    marginBottom: 18,
+  },
+
   label: {
     fontFamily: fonts.bodyBold,
-    fontSize: 13,
-    color: colors.titulo,
-    marginBottom: 6,
+    fontWeight: "700",
+    fontSize: 16,
+    color: colors.rosaEscuro,
+    marginBottom: 8,
   },
+
   inputBox: {
     flexDirection: "row",
     alignItems: "center",
@@ -41,9 +70,11 @@ export const styles = StyleSheet.create({
     height: 52,
     backgroundColor: colors.fundoPrincipal,
   },
+
   inputIcon: {
     marginRight: 10,
   },
+
   input: {
     flex: 1,
     fontFamily: fonts.body,
@@ -51,7 +82,6 @@ export const styles = StyleSheet.create({
     color: colors.texto,
   },
 
-  // Botão
   button: {
     flexDirection: "row",
     alignItems: "center",
@@ -59,18 +89,23 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.rosaEscuro,
     borderRadius: 30,
     height: 56,
+    width: "100%",
     gap: 8,
+    marginTop: 20,
   },
+
   buttonDisabled: {
     opacity: 0.5,
   },
+
   buttonText: {
     fontFamily: fonts.bodyBold,
-    fontSize: 16,
+    fontWeight: "700",
+    fontSize: 15,
+    letterSpacing: 0.3,
     color: colors.textoInvertido,
   },
 
-  // Textos pequenos / links (footer, divisores, termos)
   caption: {
     fontFamily: fonts.body,
     fontSize: 12,
@@ -78,19 +113,26 @@ export const styles = StyleSheet.create({
     textAlign: "center",
     letterSpacing: 1,
   },
+
   linkContainer: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
-    marginTop: 16,
+    marginTop: 35,
   },
+
   linkTexto: {
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 14,
+    lineHeight: 20,
     color: colors.textoSecundario,
   },
+
   linkDestaque: {
     fontFamily: fonts.bodyBold,
-    fontSize: 13,
+    fontWeight: "700",
+    fontSize: 17,
+    lineHeight: 20,
     color: colors.rosaEscuro,
   },
 });
