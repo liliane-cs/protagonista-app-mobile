@@ -10,9 +10,8 @@ import {
   PlusJakartaSans_400Regular,
   PlusJakartaSans_700Bold,
 } from "@expo-google-fonts/plus-jakarta-sans";
-import { NavigationContainer } from "@react-navigation/native";
-
-import { DrawerRoutes } from "./src/routers/drawer.routes";
+import Toast from "react-native-toast-message";
+import { Routers } from "./src/routers/stack.routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -31,10 +30,11 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
+    <>
       <StatusBar style="auto" />
-      <DrawerRoutes />
-    </NavigationContainer>
+      <Routers />
+      <Toast />
+    </>
   );
 }
 
