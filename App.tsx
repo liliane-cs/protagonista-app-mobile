@@ -1,18 +1,18 @@
+import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import 'react-native-gesture-handler';
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
 import {
   LibreCaslonText_400Regular,
   LibreCaslonText_700Bold,
 } from "@expo-google-fonts/libre-caslon-text";
-
 import {
   PlusJakartaSans_400Regular,
   PlusJakartaSans_700Bold,
 } from "@expo-google-fonts/plus-jakarta-sans";
+import { NavigationContainer } from "@react-navigation/native";
 
-import { Card } from "./src/components/Card";
+import { DrawerRoutes } from "./src/routers/drawer.routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,11 +21,20 @@ export default function App() {
     PlusJakartaSans_400Regular,
     PlusJakartaSans_700Bold,
   });
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#7a1218" />
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <NavigationContainer>
       <StatusBar style="auto" />
-    </View>
+      <DrawerRoutes />
+    </NavigationContainer>
   );
 }
 
@@ -37,4 +46,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
