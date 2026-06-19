@@ -18,8 +18,15 @@ export type StackParamList = {
   Login: undefined;
   Cadastro: undefined;
   DrawerRoutes: undefined;
-  ProfissionalDetalhe: { id: string };
-  OportunidadeDetalhe: { id: string };
+
+  
+  ProfissionalDetalhe: {
+    id: string;
+  };
+
+  OportunidadeDetalhe: {
+    id: string;
+  };
 };
 
 declare global {
