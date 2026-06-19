@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, ActivityIndicator, SafeAreaView } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native"; // Removido RouteProp local
+import { useNavigation, useRoute } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { getProfissionaisById } from "../../services/protagonizaService";
 import { Profissional } from "../../types/profissional";
@@ -63,7 +63,6 @@ export const ProfissionalDetalhe: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
             <MaterialIcons name="arrow-back" size={22} color={colors.texto} />
@@ -71,17 +70,14 @@ export const ProfissionalDetalhe: React.FC = () => {
           <Text style={styles.headerTitle}>Perfil</Text>
         </View>
 
-        {/* Foto */}
         <Image
           source={{ uri: profissional.foto }}
           style={styles.profileImage}
           resizeMode="cover"
         />
 
-        {/* Nome */}
         <Text style={styles.name}>{profissional.nome}</Text>
 
-        {/* Card de Informações */}
         <View style={styles.card}>
           <View style={styles.infoRow}>
             <MaterialIcons name="work" size={18} color={colors.subtitulo} style={styles.infoIcon} />
@@ -116,7 +112,6 @@ export const ProfissionalDetalhe: React.FC = () => {
           </View>
         </View>
 
-        {/* Botão de Contato */}
         <TouchableOpacity style={styles.contactButton} activeOpacity={0.85}>
           <Text style={styles.contactButtonText}>Entrar em contato</Text>
         </TouchableOpacity>

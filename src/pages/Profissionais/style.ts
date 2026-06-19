@@ -11,7 +11,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       flex: 1,
     },
 
-    // Header
     header: {
       flexDirection: "row",
       alignItems: "center",
@@ -37,7 +36,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       alignItems: "center",
     },
 
-    // Search bar
     searchBar: {
       flexDirection: "row",
       alignItems: "center",
@@ -59,14 +57,12 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       padding: 0,
     },
 
-    // List
     listContent: {
       paddingHorizontal: 20,
       paddingBottom: 24,
       gap: 10,
     },
 
-    // Card (profissional item)
     card: {
       flexDirection: "row",
       alignItems: "center",
@@ -109,7 +105,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       color: colors.textoSecundario,
     },
 
-    // "Ver perfil" button
     verPerfilButton: {
       borderWidth: 1,
       borderColor: colors.rosaQueimado,
@@ -123,7 +118,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       color: colors.subtitulo,
     },
 
-    // Loading / Empty / Error
     centered: {
       flex: 1,
       justifyContent: "center",
