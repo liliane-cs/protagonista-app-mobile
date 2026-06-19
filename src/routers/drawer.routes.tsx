@@ -1,13 +1,11 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+// drawerRoutes.tsx
+import { View, Text } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DrawerParamList } from "./navigation";
+import { TabsRoutes } from "./tab.routes";
+//import { MeuPerfil } from "../pages/MeuPerfil";
 
-import { DrawerParamList } from './navigation'
-
-import { TabsRoutes } from './tab.routes'
-import { MeuPerfil } from '../pages/MeuPerfil'
-
-const Drawer = createDrawerNavigator<DrawerParamList>()
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function PlaceholderScreen() {
   return (
@@ -25,36 +23,27 @@ function PlaceholderScreen() {
 
 export const DrawerRoutes = () => {
   return (
-    <Drawer.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <Drawer.Navigator screenOptions={{ headerShown: false }}>
       {/* <Drawer.Screen
-        name="HomeTabs"
+        name="TabsRoutes"
         component={TabsRoutes}
-        options={{
-          drawerLabel: 'Início',
-        }}
+        options={{ drawerLabel: "Início" }}
       /> */}
-
       <Drawer.Screen
         name="Profissionais"
         component={PlaceholderScreen}
+        options={{ drawerLabel: "Profissionais" }}
       />
-
       <Drawer.Screen
         name="Favoritos"
         component={PlaceholderScreen}
+        options={{ drawerLabel: "Favoritos" }}
       />
-
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="MeuPerfil"
         component={MeuPerfil}
-        options={{
-          drawerLabel: 'Meu Perfil',
-        }}
-      />
+        options={{ drawerLabel: "Meu Perfil" }}
+      /> */}
     </Drawer.Navigator>
-  )
-}
+  );
+};

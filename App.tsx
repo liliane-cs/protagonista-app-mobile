@@ -39,7 +39,7 @@
 
 
 import Toast from "react-native-toast-message";
-import Login from "./src/pages/Login";
+// import Login from "./src/pages/Login";
 
 
 
@@ -47,7 +47,7 @@ import Login from "./src/pages/Login";
 export default function App() {
   return (
     <>
-      <Login />
+      {/* <Login /> */}
       <Toast />
     </>
   );
