@@ -8,7 +8,7 @@ export type TabParamList = {
 };
 
 export type DrawerParamList = {
-  TabsRoutes: NavigatorScreenParams<TabParamList>;
+  HomeTabs: NavigatorScreenParams<TabParamList>;
   Profissionais: undefined;
   Favoritos: undefined;
   MeuPerfil: undefined;
@@ -18,8 +18,15 @@ export type StackParamList = {
   Login: undefined;
   Cadastro: undefined;
   DrawerRoutes: undefined;
-  ProfissionalDetalhe: { id: string };
-  OportunidadeDetalhe: { id: string };
+
+  
+  ProfissionalDetalhe: {
+    id: string;
+  };
+
+  OportunidadeDetalhe: {
+    id: string;
+  };
 };
 
 declare global {

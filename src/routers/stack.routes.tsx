@@ -1,47 +1,57 @@
-// stackRoutes.tsx
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, Text } from "react-native";
-import { StackParamList } from "./navigation";
-import { DrawerRoutes } from "./drawer.routes";
-import "./navigation";
-// import { Login } from "../pages/Login";
-// import { Cadastro } from "../pages/Cadastro";
+import React from 'react'
 
-const Stack = createNativeStackNavigator<StackParamList>();
+import { NavigationContainer } from '@react-navigation/native'
 
-function PlaceholderScreen({ route }: any) {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Tela em construção</Text>
-    </View>
-  );
-}
+import {
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack'
 
-export const Routers = () => {
+import { StackParamList } from './navigation'
+
+// import { Login } from '../pages/Login'
+// import { Cadastro } from '../pages/Cadastro'
+
+import { DrawerRoutes } from './drawer.routes'
+
+// import { ProfissionalDetalhe } from '../pages/ProfissionalDetalhe'
+// import { OportunidadeDetalhe } from '../pages/OportunidadeDetalhe'
+
+const Stack =
+  createNativeStackNavigator<StackParamList>()
+
+export const StackRoutes = () => {
   return (
     <NavigationContainer>
-      <StackRouters />
-    </NavigationContainer>
-  );
-};
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        {/* <Stack.Screen
+          name="Login"
+          component={Login}
+        />
 
-const StackRouters = () => {
-  return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Cadastro" component={Cadastro} /> */}
-      <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
-      <Stack.Screen 
-        name="ProfissionalDetalhe" 
-        component={PlaceholderScreen} 
-        options={{ headerShown: true, title: "Detalhes do Profissional" }} 
-      />
-      <Stack.Screen 
-        name="OportunidadeDetalhe" 
-        component={PlaceholderScreen} 
-        options={{ headerShown: true, title: "Detalhes da Oportunidade" }} 
-      />
-    </Stack.Navigator>
-  );
-};
+        <Stack.Screen
+          name="Cadastro"
+          component={Cadastro}
+        /> */}
+
+        <Stack.Screen
+          name="DrawerRoutes"
+          component={DrawerRoutes}
+        />
+
+        {/* <Stack.Screen
+          name="ProfissionalDetalhe"
+          component={ProfissionalDetalhe}
+        />
+
+        <Stack.Screen
+          name="OportunidadeDetalhe"
+          component={OportunidadeDetalhe}
+        /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
