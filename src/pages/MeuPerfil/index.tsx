@@ -25,7 +25,7 @@ const ACESSOS = [
   { icone: "log-out", label: "Sair" },
 ] as const;
 
-export default function MeuPerfil({}: MeuPerfilProps) {
+export const MeuPerfil = ({}: MeuPerfilProps) => {
   const [editando, setEditando] = useState(false);
 
   const [id, setId] = useState("");

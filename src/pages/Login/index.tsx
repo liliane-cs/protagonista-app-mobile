@@ -16,7 +16,7 @@ import ErrorMessage from "../../components/Error";
 
 import { getProfissionais } from "../../services/protagonizaService";
 
-export default function Login() {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [isLoading, setIsLoading] = useState(false);

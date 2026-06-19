@@ -19,7 +19,7 @@ import {
   cadastrarProfissional,
 } from "../../services/protagonizaService";
 
-export default function Cadastro() {
+export const Cadastro = () => {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [area, setArea] = useState("");
