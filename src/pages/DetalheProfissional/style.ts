@@ -16,7 +16,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       paddingBottom: 32,
     },
 
-    // Header
     header: {
       flexDirection: "row",
       alignItems: "center",
@@ -32,7 +31,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       color: colors.texto,
     },
 
-    // Loading / Error
     centered: {
       flex: 1,
       justifyContent: "center",
@@ -56,7 +54,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       backgroundColor: colors.bege,
     },
 
-    // Name
     name: {
       fontFamily: fonts.title,
       fontSize: 20,
@@ -101,7 +98,6 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
       lineHeight: 19,
     },
 
-    // Contact button
     contactButton: {
       backgroundColor: colors.vinhoPrincipal,
       borderRadius: 12,
