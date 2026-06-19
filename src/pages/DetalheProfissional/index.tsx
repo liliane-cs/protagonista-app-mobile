@@ -112,6 +112,7 @@ export const ProfissionalDetalhe: React.FC = () => {
           </View>
         </View>
 
+
         <TouchableOpacity style={styles.contactButton} activeOpacity={0.85}>
           <Text style={styles.contactButtonText}>Entrar em contato</Text>
         </TouchableOpacity>
