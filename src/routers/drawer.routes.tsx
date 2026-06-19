@@ -1,4 +1,4 @@
-// drawerRoutes.tsx
+
 import { View, Text } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerParamList } from './navigation';

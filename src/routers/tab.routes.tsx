@@ -1,14 +1,14 @@
-// tabsRoutes.tsx
-import { View, Text } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TabParamList } from './navigation';
+import React from "react";
+import { View, Text } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { TabParamList } from "./navigation";
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
-function PlaceholderScreen() {
+function PlaceholderScreen({ route }: any) {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Tela em construção</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Tela em construção: {route?.name}</Text>
     </View>
   );
 }
