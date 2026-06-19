@@ -1,6 +1,6 @@
 import { apiCursos, apiLivros, apiProfissionais } from "./api";
 import { Curso } from "../types/cursos";
-import { Profissional } from "../types/profissional";
+import { Profissional } from "../pages/Profissionais/types";
 import { Livro } from "../types/livros";
 import { Apoio } from "../types/apoios";
 import { Oportunidade } from "../types/oportunidades";
