@@ -17,7 +17,7 @@ export type DrawerParamList = {
 export type StackParamList = {
   Login: undefined;
   Cadastro: undefined;
-  DrawerRoutes: NavigatorScreenParams<DrawerParamList>;
+  DrawerRoutes: undefined;
   ProfissionalDetalhe: { id: string };
   OportunidadeDetalhe: { id: string };
 };
