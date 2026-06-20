@@ -15,6 +15,7 @@ export type DrawerParamList = {
 };
 
 export type StackParamList = {
+  Home: undefined;
   Login: undefined;
   Cadastro: undefined;
   DrawerRoutes: undefined;

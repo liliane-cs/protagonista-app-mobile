@@ -70,4 +70,32 @@ export const styles = StyleSheet.create({
     bottom: 70,
     width: "100%",
   },
+
+  // Home
+
+  home: {
+    fontFamily: fonts.body,
+    padding: 20,
+    color: colors.texto,
+  },
+
+  saudacao: {
+    fontFamily: fonts.bodyBold,
+    fontSize: 20,
+    marginBottom: 10,
+  },
+
+  banner: {
+    width: "100%",
+    height: 110,
+    borderRadius: 8,
+    marginVertical: 15,
+  },
+
+  iconesContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+    justifyContent: "center",
+  },
 });
