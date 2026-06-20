@@ -33,7 +33,7 @@ export function Card({
           <Ionicons
             name={favoritado ? "heart" : "heart-outline"}
             size={24}
-            color={favoritado ? colors.rosaEscuro : "#999"}
+            color={favoritado ? colors.vinhoEscuro : "#999"}
           />
         </TouchableOpacity>
       </Pressable>

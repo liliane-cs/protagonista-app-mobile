@@ -31,13 +31,13 @@ export const DrawerRoutes = () => {
         headerShown: false,
       }}
     >
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="HomeTabs"
         component={TabsRoutes}
         options={{
-          drawerLabel: 'Início',
+          drawerLabel: "Início",
         }}
-      /> */}
+      />
 
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Profissionais" component={PlaceholderScreen} />

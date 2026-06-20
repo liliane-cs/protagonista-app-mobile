@@ -6,12 +6,13 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 10,
+    width: 90,
   },
 
   label: {
     fontFamily: fonts.body,
     marginTop: 6,
-    fontSize: 14,
+    fontSize: 12,
     color: "#333",
   },
 
@@ -46,5 +47,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     position: "absolute",
     right: 12,
+    top: 8,
   },
 });
