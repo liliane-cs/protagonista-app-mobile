@@ -14,21 +14,36 @@ import {
 import Toast from "react-native-toast-message";
 import { StackRoutes } from "./src/routers/stack.routes";
 
-export default function App() {
-  const [fontsLoaded] = useFonts({
-    LibreCaslonText_400Regular,
-    LibreCaslonText_700Bold,
-    PlusJakartaSans_400Regular,
-    PlusJakartaSans_700Bold,
-  });
+// import {
+//   PlusJakartaSans_400Regular,
+//   PlusJakartaSans_700Bold,
+// } from "@expo-google-fonts/plus-jakarta-sans";
 
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#7a1218" />
-      </View>
-    );
-  }
+// import { Card } from "./src/components/Card";
+
+// export default function App() {
+//   const [fontsLoaded] = useFonts({
+//     LibreCaslonText_400Regular,
+//     LibreCaslonText_700Bold,
+//     PlusJakartaSans_400Regular,
+//     PlusJakartaSans_700Bold,
+//   });
+//   return (
+//     <View style={styles.container}>
+//       <Text>Open up App.tsx to start working on your app!</Text>
+//       <StatusBar style="auto" />
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#fff",
+//     alignItems: "center",
+//     justifyContent: "center",
+//   },
+// });
 
   return (
     <>
@@ -39,11 +54,9 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+import { MeuPerfil } from './src/pages/MeuPerfil'
+import { Routers } from './src/routers'
+
+export default function App() {
+  return <MeuPerfil/>
+}

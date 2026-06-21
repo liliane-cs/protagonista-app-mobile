@@ -5,7 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import { DrawerParamList } from './navigation'
 
 import { TabsRoutes } from './tab.routes'
-// import { MeuPerfil } from '../pages/MeuPerfil'
+import { MeuPerfil } from '../pages/MeuPerfil'
 
 const Drawer = createDrawerNavigator<DrawerParamList>()
 
@@ -48,13 +48,13 @@ export const DrawerRoutes = () => {
         component={PlaceholderScreen}
       />
 
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="MeuPerfil"
         component={MeuPerfil}
         options={{
           drawerLabel: 'Meu Perfil',
         }}
-      /> */}
+      />
     </Drawer.Navigator>
   )
 }

@@ -1,14 +1,20 @@
 import React from 'react'
+
 import { NavigationContainer } from '@react-navigation/native'
+
 import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
+
 import { StackParamList } from './navigation'
-// import { Login } from '../pages/Login'
-// import { Cadastro } from '../pages/Cadastro'
+
+import { Login } from '../pages/Login'
+import { Cadastro } from '../pages/Cadastro'
+
 import { DrawerRoutes } from './drawer.routes'
+
 // import { ProfissionalDetalhe } from '../pages/ProfissionalDetalhe'
-import { DetalheOportunidade } from '../pages/DetalheOportunidade'
+// import { OportunidadeDetalhe } from '../pages/OportunidadeDetalhe'
 
 const Stack =
   createNativeStackNavigator<StackParamList>()
@@ -21,7 +27,7 @@ export const StackRoutes = () => {
           headerShown: false,
         }}
       >
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={Login}
         />
@@ -29,7 +35,7 @@ export const StackRoutes = () => {
         <Stack.Screen
           name="Cadastro"
           component={Cadastro}
-        /> */}
+        />
 
         <Stack.Screen
           name="DrawerRoutes"
@@ -39,12 +45,12 @@ export const StackRoutes = () => {
         {/* <Stack.Screen
           name="ProfissionalDetalhe"
           component={ProfissionalDetalhe}
-        /> */}
+        />
 
         <Stack.Screen
-          name="DetalheOportunidade"
-          component={DetalheOportunidade}
-        />
+          name="OportunidadeDetalhe"
+          component={OportunidadeDetalhe}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )
