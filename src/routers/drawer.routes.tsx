@@ -7,7 +7,7 @@ import { DrawerParamList } from "./navigation";
 import { TabsRoutes } from "./tab.routes";
 import { Home } from "../pages/Home";
 import { TelaInicio } from "../pages/TelaInicial";
-// import { MeuPerfil } from '../pages/MeuPerfil'
+import { MeuPerfil } from "../pages/MeuPerfil";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -40,18 +40,19 @@ export const DrawerRoutes = () => {
         }}
       />
 
-      <Drawer.Screen name="Home" component={Home} />
+      {/* <Drawer.Screen name="Inicio" component={TelaInicio} /> */}
+      {/* <Drawer.Screen name="Home" component={Home} /> */}
       <Drawer.Screen name="Profissionais" component={PlaceholderScreen} />
 
       <Drawer.Screen name="Favoritos" component={PlaceholderScreen} />
 
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="MeuPerfil"
         component={MeuPerfil}
         options={{
-          drawerLabel: 'Meu Perfil',
+          drawerLabel: "Meu Perfil",
         }}
-      /> */}
+      />
     </Drawer.Navigator>
   );
 };
