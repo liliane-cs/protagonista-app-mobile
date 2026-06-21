@@ -27,7 +27,7 @@ const renderIcon = (iconName: IconName, focused: boolean) => {
     >
       <Ionicons
         name={iconName}
-        size={18}
+        size={20}
         color={focused ? colors.bege : colors.vinhoEscuro}
       />
     </View>
@@ -38,7 +38,7 @@ export const TabsRoutes = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         tabBarStyle: styles.tabBar,
         tabBarLabelStyle: styles.label,
         tabBarActiveTintColor: colors.vinhoEscuro,

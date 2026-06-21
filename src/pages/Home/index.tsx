@@ -23,11 +23,7 @@ import { MapaProfissionais } from "../../components/MapaProfissionais";
 import { Evento } from "../../types/evento";
 import { EventoDoMes } from "../../components/EventoDoMes";
 
-const image =
-  "https://media.gettyimages.com/id/1608583394/pt/foto/portrait-of-a-middle-aged-japanese-woman.jpg?s=612x612&w=0&k=20&c=DhBCbFhnmc2A6x1Ibu1Gg2ze-xFQCwnxaWfO0xgA7hk=";
-
 export const Home = () => {
-  const [modo, setModo] = useState<"inicio" | "home">("home");
   const [nome, setNome] = useState("");
 
   const [livros, setLivros] = useState<Livro[]>([]);
@@ -40,7 +36,7 @@ export const Home = () => {
     titulo: "Workshop Mulheres na Tecnologia",
     data: "2026-07-10T19:00:00",
     local: "Online",
-    descricao: "Um evento para impulsionar mulheres na área tech 🚀",
+    descricao: "Um evento para impulsionar mulheres na área tech ",
   };
 
   const getSaudacao = () => {
@@ -115,181 +111,135 @@ export const Home = () => {
     return () => clearInterval(interval);
   }, [livros]);
 
-  if (modo === "inicio") {
-    return (
-      <ImageBackground
-        style={styles.startContainer}
-        source={fundo}
-        resizeMode="cover"
-      >
-        <Text style={styles.title}>
-          Mulheres {"\n"}que apoiam, {"\n"}juntas {"\n"}transformam.
-        </Text>
+  return (
+    <ScrollView style={styles.home}>
+      <View style={styles.headerHome}>
+        <Text style={styles.saudacao}>{saudacao}</Text>
+        <Text>Que bom te ver por aqui!</Text>
 
-        <Text style={styles.text}>
-          Conecte-se, compartilhe e cresça com uma rede de apoio entre mulheres.
-        </Text>
-
-        <View style={styles.bottomContainer}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              // onPress={() => setModo("logado")}
-            >
-              <Text style={styles.buttonText}>Entrar</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.button, styles.buttonSecondary]}
-              // onPress={() => setModo("logado")}
-            >
-              <Text style={styles.buttonSecondaryText}>Cadastrar</Text>
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity
-            style={styles.secondaryButton}
-            onPress={() => setModo("home")}
-          >
-            <Text style={styles.secondaryText}>Continuar como visitante</Text>
-          </TouchableOpacity>
+        <View style={styles.accountIcon}>
+          <Ionicons
+            name="heart-outline"
+            size={35}
+            color={colors.rosaQueimado}
+          />
+          <Ionicons
+            name="person-circle"
+            size={35}
+            color={colors.rosaQueimado}
+          />
         </View>
-      </ImageBackground>
-    );
-  }
-  if (modo === "home") {
-    return (
-      <ScrollView style={styles.home}>
-        <View style={styles.headerHome}>
-          <Text style={styles.saudacao}>{saudacao}</Text>
-          <Text>Que bom te ver por aqui!</Text>
+      </View>
+      <Image source={banner} style={styles.banner} resizeMode="cover" />
 
-          <View style={styles.accountIcon}>
-            <Ionicons
-              name="heart-outline"
-              size={35}
-              color={colors.rosaQueimado}
-            />
-            <Ionicons
-              name="person-circle"
-              size={35}
-              color={colors.rosaQueimado}
-            />
-          </View>
-        </View>
-        <Image source={banner} style={styles.banner} resizeMode="cover" />
-
-        <Text style={styles.titleHome}>O que você vai encontrar aqui</Text>
-        <View style={styles.iconesContainer}>
-          <IconeCard
-            icon="people-outline"
-            label="Profissionais"
-            modalText="Monte seu perfil profissional, mostre o que você faz e seja
+      <Text style={styles.titleHome}>O que você vai encontrar aqui</Text>
+      <View style={styles.iconesContainer}>
+        <IconeCard
+          icon="people-outline"
+          label="Profissionais"
+          modalText="Monte seu perfil profissional, mostre o que você faz e seja
               encontrada por quem precisa dos seus serviços — sem precisar pagar
               por anúncio."
-          />
-          <IconeCard
-            icon="briefcase-outline"
-            label="Oportunidades"
-            modalText="Monte seu perfil profissional, mostre o que você faz e seja
+        />
+        <IconeCard
+          icon="briefcase-outline"
+          label="Oportunidades"
+          modalText="Monte seu perfil profissional, mostre o que você faz e seja
           encontrada por quem precisa dos seus serviços — sem precisar pagar
               por anúncio."
-          />
-          <IconeCard
-            icon="book-outline"
-            label="Cursos"
-            modalText="Monte seu perfil profissional, mostre o que você faz e seja
+        />
+        <IconeCard
+          icon="book-outline"
+          label="Cursos"
+          modalText="Monte seu perfil profissional, mostre o que você faz e seja
           encontrada por quem precisa dos seus serviços — sem precisar pagar
               por anúncio."
-          />
-          <IconeCard
-            icon="people-circle-outline"
-            label="Rede de Apoio"
-            modalText="Monte seu perfil profissional, mostre o que você faz e seja
+        />
+        <IconeCard
+          icon="people-circle-outline"
+          label="Rede de Apoio"
+          modalText="Monte seu perfil profissional, mostre o que você faz e seja
           encontrada por quem precisa dos seus serviços — sem precisar pagar
           por anúncio."
-          />
-          <IconeCard
-            icon="newspaper-outline"
-            label="Feed"
-            modalText="Monte seu perfil profissional, mostre o que você faz e seja
+        />
+        <IconeCard
+          icon="newspaper-outline"
+          label="Serviços"
+          modalText="Monte seu perfil profissional, mostre o que você faz e seja
           encontrada por quem precisa dos seus serviços — sem precisar pagar
           por anúncio."
-          />
-          <IconeCard
-            icon="information-circle-outline"
-            label="Sobre nós"
-            modalText="Monte seu perfil profissional, mostre o que você faz e seja
+        />
+        <IconeCard
+          icon="information-circle-outline"
+          label="Sobre nós"
+          modalText="Monte seu perfil profissional, mostre o que você faz e seja
           encontrada por quem precisa dos seus serviços — sem precisar pagar
           por anúncio."
-          />
+        />
+      </View>
+
+      <EventoDoMes evento={evento} />
+
+      <View style={styles.headerLivros}>
+        <View>
+          <Text style={styles.titleHome}>Leitura da comunidade</Text>
+          <Text>Palavras que nos movem</Text>
         </View>
 
-        <EventoDoMes evento={evento} />
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.addButtonText}>
+            <Ionicons name="add-outline" size={20} />
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.headerLivros}>
-          <View>
-            <Text style={styles.titleHome}>Leitura da comunidade</Text>
-            <Text>Palavras que nos movem</Text>
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        livroAtual && (
+          <View style={styles.bookCard}>
+            <Image
+              source={{
+                uri: `https://covers.openlibrary.org/b/id/${livroAtual.cover_i}-M.jpg`,
+              }}
+              style={styles.bookImage}
+            />
+            <Text style={styles.cardTitle}>{livroAtual.title}</Text>
+            <Text style={styles.bookAuthor}>{livroAtual.author_name?.[0]}</Text>
           </View>
+        )
+      )}
 
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => setModalVisible(true)}
-          >
-            <Text style={styles.addButtonText}>
-              <Ionicons name="add-outline" size={20} />
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <Modal transparent animationType="slide" visible={modalVisible}>
+        <View style={styles.overlay}>
+          <View style={styles.bottomSheet}>
+            <Text style={styles.titleHome}>Indicar livro</Text>
 
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          livroAtual && (
-            <View style={styles.bookCard}>
-              <Image
-                source={{
-                  uri: `https://covers.openlibrary.org/b/id/${livroAtual.cover_i}-M.jpg`,
-                }}
-                style={styles.bookImage}
-              />
-              <Text style={styles.cardTitle}>{livroAtual.title}</Text>
-              <Text style={styles.bookAuthor}>
-                {livroAtual.author_name?.[0]}
+            <TextInput
+              style={styles.input}
+              placeholder="Digite o nome do livro"
+              value={busca}
+              onChangeText={setBusca}
+            />
+
+            <Button onPress={adicionarLivro}>
+              <Text style={styles.buttonText}>Enviar</Text>
+            </Button>
+
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={{ textAlign: "center", marginTop: 10 }}>
+                Cancelar
               </Text>
-            </View>
-          )
-        )}
-
-        <Modal transparent animationType="slide" visible={modalVisible}>
-          <View style={styles.overlay}>
-            <View style={styles.bottomSheet}>
-              <Text style={styles.titleHome}>Indicar livro</Text>
-
-              <TextInput
-                style={styles.input}
-                placeholder="Digite o nome do livro"
-                value={busca}
-                onChangeText={setBusca}
-              />
-
-              <Button onPress={adicionarLivro}>
-                <Text style={styles.buttonText}>Enviar</Text>
-              </Button>
-
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={{ textAlign: "center", marginTop: 10 }}>
-                  Cancelar
-                </Text>
-              </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
-        <Text style={styles.titleHome}>Estamos em todo lugar</Text>
-        {/* <MapaProfissionais /> */}
-      </ScrollView>
-    );
-  }
+      <Text style={styles.titleHome}>Estamos em todo lugar</Text>
+      {/* <MapaProfissionais /> */}
+    </ScrollView>
+  );
 };

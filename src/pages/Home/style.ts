@@ -86,6 +86,7 @@ export const styles = StyleSheet.create({
     padding: 20,
     color: colors.texto,
     backgroundColor: colors.fundo,
+    // marginBottom: 30,
   },
 
   saudacao: {

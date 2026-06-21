@@ -10,9 +10,7 @@ import { StackParamList } from "./navigation";
 // import { Cadastro } from '../pages/Cadastro'
 
 import { DrawerRoutes } from "./drawer.routes";
-import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../styles/theme";
-import { Home } from "../pages/Home";
+import { TelaInicio } from "../pages/TelaInicial";
 
 // import { ProfissionalDetalhe } from '../pages/ProfissionalDetalhe'
 // import { OportunidadeDetalhe } from '../pages/OportunidadeDetalhe'
@@ -50,6 +48,7 @@ export const StackRoutes = () => {
           component={Cadastro}
         /> */}
 
+        <Stack.Screen name="Inicio" component={TelaInicio} />
         <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
 
         {/* <Stack.Screen

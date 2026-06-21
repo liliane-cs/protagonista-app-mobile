@@ -6,6 +6,7 @@ import { DrawerParamList } from "./navigation";
 
 import { TabsRoutes } from "./tab.routes";
 import { Home } from "../pages/Home";
+import { TelaInicio } from "../pages/TelaInicial";
 // import { MeuPerfil } from '../pages/MeuPerfil'
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
