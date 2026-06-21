@@ -1,3 +1,4 @@
+import 'react-native-reanimated';
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
@@ -11,7 +12,7 @@ import {
   PlusJakartaSans_700Bold,
 } from "@expo-google-fonts/plus-jakarta-sans";
 import Toast from "react-native-toast-message";
-import { Routers } from "./src/routers/stack.routes";
+import { StackRoutes } from "./src/routers/stack.routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -32,7 +33,7 @@ export default function App() {
   return (
     <>
       <StatusBar style="auto" />
-      <Routers />
+      <StackRoutes />
       <Toast />
     </>
   );
