@@ -1,10 +1,18 @@
-// import { StatusBar } from "expo-status-bar";
-// import { StyleSheet, Text, View } from "react-native";
-// import { useFonts } from "expo-font";
-// import {
-//   LibreCaslonText_400Regular,
-//   LibreCaslonText_700Bold,
-// } from "@expo-google-fonts/libre-caslon-text";
+import 'react-native-reanimated';
+import "react-native-gesture-handler";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { useFonts } from "expo-font";
+import {
+  LibreCaslonText_400Regular,
+  LibreCaslonText_700Bold,
+} from "@expo-google-fonts/libre-caslon-text";
+import {
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_700Bold,
+} from "@expo-google-fonts/plus-jakarta-sans";
+import Toast from "react-native-toast-message";
+import { StackRoutes } from "./src/routers/stack.routes";
 
 // import {
 //   PlusJakartaSans_400Regular,
@@ -37,6 +45,14 @@
 //   },
 // });
 
+  return (
+    <>
+      <StatusBar style="auto" />
+      <StackRoutes />
+      <Toast />
+    </>
+  );
+}
 
 import { MeuPerfil } from './src/pages/MeuPerfil'
 import { Routers } from './src/routers'
