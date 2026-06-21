@@ -38,17 +38,9 @@
 // });
 
 
-import Toast from "react-native-toast-message";
-// import Login from "./src/pages/Login";
-
-
-
+import { MeuPerfil } from './src/pages/MeuPerfil'
+import { Routers } from './src/routers'
 
 export default function App() {
-  return (
-    <>
-      {/* <Login /> */}
-      <Toast />
-    </>
-  );
+  return <MeuPerfil/>
 }

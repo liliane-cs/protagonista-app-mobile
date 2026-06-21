@@ -1,28 +1,56 @@
-import { TextInputProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { KeyboardTypeOptions, ViewStyle, TextStyle } from "react-native";
 
-export interface FormTitleProps {
-  titulo: string;
-  subtitulo?: string;
-}
+export type TitleProps = {
+  children: string;
+};
 
-export interface FormInputProps extends TextInputProps {
+export type SubtitleProps = {
+  children: string;
+};
+
+export type InputProps = {
   label: string;
-  iconName: keyof typeof Feather.glyphMap;
-}
+  icon: keyof typeof Feather.glyphMap;
+  placeholder: string;
+  value: string;
+  onChangeText: (text: string) => void;
+  isPassword?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  labelColor?: string;
+  inputStyle?: ViewStyle;
+};
 
-export interface FormButtonProps {
-  texto: string;
+export type LinkProps = {
+  children: string;
+  onPress?: () => void;
+  align?: "left" | "right" | "center";
+};
+
+export type ButtonProps = {
+  children: string;
   onPress: () => void;
   disabled?: boolean;
-}
+  buttonStyle?: ViewStyle;
+  textStyle?: TextStyle;
+};
 
-export interface FormCaptionProps {
-  texto: string;
-}
+export type DividerProps = {
+  children?: string;
+};
 
-export interface FormLinkProps {
+export type RedeSocial = {
+  nome: string;
+  icone: string;
+  onPress?: () => void;
+};
+
+export type SocialButtonsProps = {
+  redes: RedeSocial[];
+};
+
+export type FooterProps = {
   texto: string;
-  textoDestaque: string;
+  textoLink: string;
   onPress: () => void;
-}
+};

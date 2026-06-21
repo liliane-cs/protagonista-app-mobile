@@ -1,26 +1,29 @@
 import { useState } from "react";
-import { View, ScrollView, TouchableOpacity, Text } from "react-native";
+import { View, Text, ScrollView, Image } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import {
-  FormTitle,
-  FormInput,
-  FormButton,
-  FormLink,
-} from "../../components/Form";
+import { StackParamList } from "../../routers/navigation";
+import { estilos } from "./style";
+import { darkColors } from "../../styles/theme";
 
-import { styles } from "../../components/Form/style";
-
+import { Form } from "../../components/Form";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
 
 import { getProfissionais } from "../../services/protagonizaService";
+
+type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState(false);
+
+  const navigation = useNavigation<NavigationProps>();
 
   async function fazerLogin() {
     if (!email || !senha) {
@@ -32,7 +35,6 @@ export const Login = () => {
     }
 
     const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
     if (!emailValido) {
       Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
       return;
@@ -50,7 +52,6 @@ export const Login = () => {
 
     try {
       const profissionais = await getProfissionais();
-
       const usuarioEncontrado = profissionais.find(
         (user) => user.email === email && user.senha === senha,
       );
@@ -60,12 +61,15 @@ export const Login = () => {
         setIsLoading(false);
         return;
       }
+
       Toast.show({
         type: "success",
         text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
         text2: "Que bom ter você aqui. ✨",
       });
-    } catch (error) {
+
+      navigation.navigate("DrawerRoutes");
+    } catch {
       setErro(true);
       Toast.show({
         type: "error",
@@ -81,53 +85,88 @@ export const Login = () => {
   }
 
   return (
-    <View style={styles.screen}>
+    <View style={estilos.container}>
       {isLoading && <Loading />}
 
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={estilos.conteudo}
+        keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.card}>
-          <FormTitle
-            titulo="Bem vinda, Protagonista! "
-            subtitulo="Acesse sua conta e continue sua jornada."
+        <View style={estilos.areaSuperior}>
+          <Image
+            source={require("../../assets/imagensGerais/imagem-login.png")}
+            style={estilos.imagemPessoa}
+            resizeMode="cover"
           />
 
-          <FormInput
-            label="E-mail"
-            iconName="mail"
-            placeholder="nome@exemplo.com"
-            value={email}
-            onChangeText={setEmail}
+          <View style={estilos.sombraUniforme} />
+
+          <LinearGradient
+            colors={["transparent", darkColors.fundo + "cc", darkColors.fundo]}
+            locations={[0, 0.55, 1]}
+            style={estilos.gradiente}
           />
 
-          <FormInput
-            label="Senha"
-            iconName="lock"
-            placeholder="Sua senha"
-            value={senha}
-            onChangeText={setSenha}
-            secureTextEntry
+          <View style={estilos.tituloWrapper}>
+            <Text style={estilos.tituloNormal}>
+              {"Seu lugar\nde "}
+              <Text style={estilos.tituloDestaque}>Protagonizar!</Text>
+            </Text>
+            <Text style={estilos.subtitulo}>
+              Faça login e descubra experiências únicas.
+            </Text>
+          </View>
+        </View>
+
+        <View style={estilos.formulario}>
+          <View style={estilos.campoPadding}>
+            <Form.Input
+              label=""
+              icon="mail"
+              placeholder="Seu e-mail ou usuário"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+          </View>
+
+          <View style={estilos.campoPadding}>
+            <Form.Input
+              label=""
+              icon="lock"
+              placeholder="Sua senha"
+              value={senha}
+              onChangeText={setSenha}
+              isPassword
+            />
+          </View>
+
+          <Form.Link onPress={() => {}}>Esqueci minha senha</Form.Link>
+
+          <Form.Button onPress={fazerLogin} disabled={isLoading}>
+            Entrar
+          </Form.Button>
+
+          <Form.Divider>ou entre com</Form.Divider>
+
+          <Form.SocialButtons
+            redes={[
+              { nome: "google", icone: "google" },
+              { nome: "facebook", icone: "facebook" },
+              { nome: "apple", icone: "apple" },
+            ]}
           />
 
-          <TouchableOpacity style={styles.linkContainer}>
-            <Text style={styles.linkDestaque}>Esqueceu a senha?</Text>
-          </TouchableOpacity>
-
-          <FormButton
-            texto="Entrar"
-            onPress={fazerLogin}
-            disabled={isLoading}
-          />
-
-          <FormLink
+          <Form.Footer
             texto="Não tem uma conta?"
-            textoDestaque="Cadastre-se"
-            onPress={() => {}}
+            textoLink="Cadastre-se"
+            onPress={() => navigation.navigate("Cadastro")}
           />
         </View>
       </ScrollView>
+
+      <Toast />
     </View>
   );
-}
+};

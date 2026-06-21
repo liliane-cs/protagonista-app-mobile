@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import Toast from "react-native-toast-message";
 
-import {
-  FormTitle,
-  FormInput,
-  FormButton,
-  FormLink,
-} from "../../components/Form";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-import { styles } from "../../components/Form/style";
+import { StackParamList } from "../../routers/navigation";
+import { estilos } from "./style";
 
+import { Form } from "../../components/Form";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
 
@@ -18,6 +16,8 @@ import {
   getProfissionais,
   cadastrarProfissional,
 } from "../../services/protagonizaService";
+
+type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
 export const Cadastro = () => {
   const [nome, setNome] = useState("");
@@ -29,6 +29,8 @@ export const Cadastro = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [erro, setErro] = useState(false);
+
+  const navigation = useNavigation<NavigationProps>();
 
   async function cadastrar() {
     if (!nome || !email || !area || !cidade || !senha || !confirmarSenha) {
@@ -70,9 +72,7 @@ export const Cadastro = () => {
     try {
       const profissionais = await getProfissionais();
 
-      const emailJaCadastrado = profissionais.find(
-        (profissional) => profissional.email === email
-      );
+      const emailJaCadastrado = profissionais.find((p) => p.email === email);
 
       if (emailJaCadastrado) {
         Toast.show({
@@ -97,13 +97,8 @@ export const Cadastro = () => {
         text1: "Cadastro realizado com sucesso!",
       });
 
-      setNome("");
-      setEmail("");
-      setArea("");
-      setCidade("");
-      setSenha("");
-      setConfirmarSenha("");
-    } catch (error) {
+      navigation.navigate("DrawerRoutes");
+    } catch {
       setErro(true);
 
       Toast.show({
@@ -115,88 +110,104 @@ export const Cadastro = () => {
     setIsLoading(false);
   }
 
-  if (erro) {
-    return <ErrorMessage />;
-  }
+  if (erro) return <ErrorMessage />;
 
   return (
-    <View style={styles.screen}>
+    <View style={estilos.container}>
       {isLoading && <Loading />}
 
-      <ScrollView
-        contentContainerStyle={styles.scroll}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View style={styles.card}>
-          <FormTitle
-            titulo="Crie sua conta"
-            subtitulo="Preencha seus dados e entre para essa comuninidade incrivel!"
-            
-          />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={estilos.scroll}
+        >
+          <View style={estilos.header}>
+            <Form.Title>Crie sua conta</Form.Title>
 
-          <FormInput
-            label="Nome completo"
-            iconName="user"
-            placeholder="Seu nome de protagonista"
-            value={nome}
-            onChangeText={setNome}
-          />
+            <Form.Subtitle>
+              {`Entre para essa comunidade incrível!`}
+            </Form.Subtitle>
+          </View>
 
-          <FormInput
-            label="E-mail"
-            iconName="mail"
-            placeholder="Digite seu e-mail"
-            value={email}
-            onChangeText={setEmail}
-          />
+          <View style={estilos.areaClara}>
+            <View style={estilos.formulario}>
+              <Form.Input
+                label="Nome"
+                icon="user"
+                placeholder="Seu nome de protagonista"
+                value={nome}
+                onChangeText={setNome}
+              />
 
-          <FormInput
-            label="Área de atuação"
-            iconName="briefcase"
-            placeholder="Em qual área você brilha?"
-            value={area}
-            onChangeText={setArea}
-          />
+              <Form.Input
+                label="E-mail"
+                icon="mail"
+                placeholder="Digite seu e-mail"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
 
-          <FormInput
-            label="Cidade"
-            iconName="map-pin"
-            placeholder="De onde você transforma ?"
-            value={cidade}
-            onChangeText={setCidade}
-          />
+              <Form.Input
+                label="Área de atuação"
+                icon="briefcase"
+                placeholder="Em qual área você brilha?"
+                value={area}
+                onChangeText={setArea}
+              />
 
-          <FormInput
-            label="Senha"
-            iconName="lock"
-            placeholder="Crie uma senha"
-            value={senha}
-            onChangeText={setSenha}
-            secureTextEntry
-          />
+              <Form.Input
+                label="Cidade"
+                icon="map-pin"
+                placeholder="De onde você transforma?"
+                value={cidade}
+                onChangeText={setCidade}
+              />
 
-          <FormInput
-            label="Confirmar senha"
-            iconName="lock"
-            placeholder="Confirme sua senha"
-            value={confirmarSenha}
-            onChangeText={setConfirmarSenha}
-            secureTextEntry
-          />
+              <Form.Input
+                label="Senha"
+                icon="lock"
+                placeholder="Crie uma senha"
+                value={senha}
+                onChangeText={setSenha}
+                isPassword
+              />
 
-          <FormButton
-            texto="Começar minha jornada "
-            onPress={cadastrar}
-            disabled={isLoading}
-          />
+              <Form.Input
+                label="Confirmar senha"
+                icon="lock"
+                placeholder="Confirme sua senha"
+                value={confirmarSenha}
+                onChangeText={setConfirmarSenha}
+                isPassword
+              />
 
-          <FormLink
-            texto="Já faz parte dessa rede incrível?"
-            textoDestaque="Login"
-            onPress={() => {}}
-          />
-        </View>
-      </ScrollView>
+              <Form.Button
+                onPress={cadastrar}
+                disabled={isLoading}
+                buttonStyle={estilos.botao}
+                textStyle={estilos.textoBotao}
+              >
+                Começar minha jornada
+              </Form.Button>
+
+              <View style={estilos.footer}>
+                <Form.Footer
+                  texto="Já faz parte?"
+                  textoLink="Login"
+                  onPress={() => navigation.navigate("Login")}
+                />
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+
+      <Toast />
     </View>
   );
-}
+};

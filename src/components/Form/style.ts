@@ -1,138 +1,144 @@
 import { StyleSheet } from "react-native";
-import { colors, fonts } from "../../styles/theme";
+import { colors, darkColors, fonts } from "../../styles/theme";
 
-export const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: colors.fundo,
-  },
+export const cores = {
+  icone: colors.vinhoPrincipal,
+  placeholder: colors.begeEscuro,
+};
 
-  scroll: {
-    flexGrow: 1,
-    justifyContent: "center",
-    padding: 20,
-  },
-
-  card: {
-    backgroundColor: colors.fundoPrincipal,
-    borderRadius: 24,
-    padding: 24,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-
-  tituloContainer: {
-    alignItems: "center",
-    marginBottom: 36,
-  },
-
+export const estilos = StyleSheet.create({
   titulo: {
     fontFamily: fonts.title,
-    fontWeight: "800",
-    fontSize: 40,
-    color: colors.rosaEscuro,
-    textAlign: "center",
-    lineHeight: 50,
+    fontStyle: "italic",
+    fontSize: 38,
+    lineHeight: 40,
+    letterSpacing: 1.2,
+    color: darkColors.texto,
+    fontWeight: "700",
   },
 
   subtitulo: {
+    marginTop: 2,
     fontFamily: fonts.body,
-    fontSize: 17,
-    color: colors.textoSecundario,
-    textAlign: "center",
-    marginTop: 30,
-    lineHeight: 22,
+    fontSize: 13,
+    color: colors.rosaClaro,
+    fontStyle: "italic",
   },
-
-  inputContainer: {
-    marginTop: 15,
-    marginBottom: 18,
+  
+  campo: {
+    marginBottom: 5,
   },
 
   label: {
     fontFamily: fonts.bodyBold,
+    fontSize: 12,
     fontWeight: "700",
-    fontSize: 16,
-    color: colors.rosaEscuro,
+    color: colors.vinhoEscuro,
     marginBottom: 8,
   },
 
-  inputBox: {
+  inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
+    gap: 9,
+    borderWidth: 2,
     borderColor: colors.bordaSuave,
     borderRadius: 12,
-    paddingHorizontal: 14,
-    height: 52,
+    paddingHorizontal: 16,
     backgroundColor: colors.fundoPrincipal,
-  },
-
-  inputIcon: {
-    marginRight: 10,
+    height: 44,
   },
 
   input: {
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 15,
     color: colors.texto,
+    fontSize: 13,
   },
 
-  button: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.rosaEscuro,
-    borderRadius: 30,
-    height: 56,
-    width: "100%",
-    gap: 8,
-    marginTop: 20,
-  },
-
-  buttonDisabled: {
-    opacity: 0.5,
-  },
-
-  buttonText: {
-    fontFamily: fonts.bodyBold,
-    fontWeight: "700",
-    fontSize: 15,
-    letterSpacing: 0.3,
-    color: colors.textoInvertido,
-  },
-
-  caption: {
+  link: {
     fontFamily: fonts.body,
+    color: "rgba(255,255,255,0.7)",
     fontSize: 12,
-    color: colors.textoSecundario,
-    textAlign: "center",
-    letterSpacing: 1,
+    marginBottom: 20,
   },
 
-  linkContainer: {
-    flexDirection: "row",
+  botao: {
+    height: 45,
+    borderRadius: 21,
+    backgroundColor: colors.vinhoPrincipal,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 35,
+    marginBottom: 28,
+    marginTop: 3,
   },
 
-  linkTexto: {
-    fontFamily: fonts.body,
-    fontSize: 14,
-    lineHeight: 20,
-    color: colors.textoSecundario,
+  botaoDesabilitado: {
+    opacity: 0.6,
   },
 
-  linkDestaque: {
+  textoBotao: {
     fontFamily: fonts.bodyBold,
+    color: colors.textoInvertido,
+    fontSize: 15,
+    letterSpacing: 1.5,
     fontWeight: "700",
-    fontSize: 17,
-    lineHeight: 20,
-    color: colors.rosaEscuro,
   },
+
+  divisor: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+
+  linhaDivisor: {
+    flex: 1,
+    height: 1,
+    backgroundColor: darkColors.bordaSuave,
+  },
+
+  textoDivisor: {
+    marginHorizontal: 12,
+    fontFamily: fonts.body,
+    color: "rgba(255,255,255,0.5)",
+    fontSize: 12,
+  },
+
+  iconesSociais: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 20,
+    marginBottom: 20,
+  },
+
+  iconeSocial: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.begeEscuro,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  linhaRodape: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+
+  },
+
+  textoRodape: {
+    fontFamily: fonts.body,
+    color: darkColors.borda,
+    fontSize: 12,
+  },
+
+  linkRodape: {
+    fontFamily: fonts.bodyBold,
+    color: colors.rosaQueimado,
+    fontSize: 15,
+    fontWeight: "700",
+   
+  },
+
 });

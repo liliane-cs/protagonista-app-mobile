@@ -3,9 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import Toast from "react-native-toast-message";
 import { Feather as Icone } from "@expo/vector-icons";
 
-import { FormInput, FormButton } from "../../components/Form";
-
-import { styles } from "../../components/Form/style";
+import { Form } from "../../components/Form";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
 
@@ -192,21 +190,19 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
   // ── TELA DE EDITAR PERFIL ─────────────────────────────────
   if (editando) {
     return (
-      <View style={estilos.screen}>
+      <View style={estilos.screenEditar}>
         {isLoading && <Loading />}
 
         <View style={estilos.editHeader}>
           <TouchableOpacity onPress={fecharEdicao}>
-            <Icone name="arrow-left" size={22} color="#3B0A1F" />
+            <Icone name="arrow-left" size={22} color="#fff" />
           </TouchableOpacity>
-
           <Text style={estilos.editHeaderTitulo}>Editar Perfil</Text>
-
           <View style={{ width: 22 }} />
         </View>
 
         <ScrollView
-          contentContainerStyle={styles.scroll}
+          contentContainerStyle={estilos.scroll}
           showsVerticalScrollIndicator={false}
         >
           <View style={estilos.editFotoWrapper}>
@@ -217,121 +213,124 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
                 <View
                   style={[
                     estilos.editFoto,
-                    {
-                      backgroundColor: "#E8C9D0",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    },
+                    { alignItems: "center", justifyContent: "center" },
                   ]}
                 >
                   <Icone name="user" size={36} color="#B07080" />
                 </View>
               )}
             </View>
-
             <TouchableOpacity style={estilos.alterarFotoTexto}>
-              <Icone name="camera" size={14} color="#6B1A35" />
-              <Text style={estilos.alterarFotoLabel}>Alterar foto</Text>
+              <Icone name="camera" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
 
-          <Text style={estilos.editNome}>{nome}</Text>
-
-          <Text style={estilos.editSubtitulo}>
-            A protagonista da vez é você! ✨
-          </Text>
-
-          <View style={estilos.divisorLinha} />
-
-          <View style={styles.card}>
-            <FormInput
-              label="Nome completo"
-              iconName="user"
-              placeholder="Como a protagonista atende pelo mundo?"
-              value={nome}
-              onChangeText={setNome}
-            />
-
-            <FormInput
-              label="E-mail"
-              iconName="mail"
-              placeholder="Seu melhor e-mail de negócios, diva!"
-              value={email}
-              onChangeText={setEmail}
-            />
-
-            <FormInput
-              label="Área de atuação"
-              iconName="briefcase"
-              placeholder="Qual é o seu superpoder profissional?"
-              value={area}
-              onChangeText={setArea}
-            />
-
-            <FormInput
-              label="Cidade"
-              iconName="map-pin"
-              placeholder="De qual canto do Brasil você protagoniza?"
-              value={cidade}
-              onChangeText={setCidade}
-            />
-
-            <FormInput
-              label="Sua história"
-              iconName="message-square"
-              placeholder="Conte um pouco sobre sua trajetória inspiradora"
+          <View style={estilos.camposWrapper}>
+            <Form.Input
+              label="Descrição"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="edit-2"
+              placeholder="Sua descrição"
               value={descricao}
               onChangeText={setDescricao}
             />
-
-            <FormInput
+            <Form.Input
+              label="E-mail"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="mail"
+              placeholder="E-mail"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+            />
+            <Form.Input
+              label="Nome completo"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="user"
+              placeholder="Nome completo"
+              value={nome}
+              onChangeText={setNome}
+            />
+            <Form.Input
               label="Contato"
-              iconName="phone"
-              placeholder="Como futuras clientes podem te encontrar?"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="phone"
+              placeholder="Contato"
               value={contato}
               onChangeText={setContato}
             />
-
-            <FormInput
-              label="Foto"
-              iconName="image"
-              placeholder="Cole aqui o link da sua foto mais poderosa"
+            <Form.Input
+              label="Foto (link)"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="image"
+              placeholder="Cole o link da sua foto"
               value={foto}
               onChangeText={setFoto}
             />
-
-            <FormInput
-              label="Senha Atual"
-              iconName="lock"
+            <Form.Input
+              label="Área de atuação"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="briefcase"
+              placeholder="Área de atuação"
+              value={area}
+              onChangeText={setArea}
+            />
+            <Form.Input
+              label="Cidade"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="map-pin"
+              placeholder="Cidade"
+              value={cidade}
+              onChangeText={setCidade}
+            />
+            <Form.Input
+              label="Senha atual"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="lock"
               placeholder="Digite sua senha atual"
               value={senhaAtual}
               onChangeText={setSenhaAtual}
-              secureTextEntry
+              isPassword
             />
-
-            <FormInput
-              label="Nova Senha"
-              iconName="lock"
-              placeholder="Crie uma nova senha poderosa"
+            <Form.Input
+              label="Nova senha"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="lock"
+              placeholder="Crie uma nova senha"
               value={novaSenha}
               onChangeText={setNovaSenha}
-              secureTextEntry
+              isPassword
             />
-
-            <FormInput
-              label="Confirmar Nova Senha"
-              iconName="lock"
+            <Form.Input
+              label="Confirmar nova senha"
+              labelColor={estilos.editLabel.color}
+              inputStyle={estilos.editInput}
+              icon="lock"
               placeholder="Repita sua nova senha"
               value={confirmarNovaSenha}
               onChangeText={setConfirmarNovaSenha}
-              secureTextEntry
+              isPassword
             />
+          </View>
 
-            <FormButton
-              texto="Atualizar meu protagonismo"
+          <View style={{ marginHorizontal: 20, marginTop: 24 }}>
+            <Form.Button
               onPress={salvar}
               disabled={isLoading}
-            />
+              buttonStyle={estilos.editBotaoSalvar}
+              textStyle={estilos.editBotaoSalvarTexto}
+            >
+              Atualizar meu protagonismo
+            </Form.Button>
 
             {!confirmarDelete ? (
               <TouchableOpacity
@@ -344,10 +343,9 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
               </TouchableOpacity>
             ) : (
               <>
-                <Text style={estilos.editSubtitulo}>
-                 Não deixe seu protagonismo! Fique por aqui.
+                <Text style={[estilos.editSubtitulo, { marginLeft: 0 }]}>
+                  Não deixe seu protagonismo! Fique por aqui.
                 </Text>
-
                 <TouchableOpacity
                   style={estilos.botaoExcluir}
                   onPress={deletar}
@@ -356,11 +354,9 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
                     Sim, quero sair dos holofotes
                   </Text>
                 </TouchableOpacity>
-
-                <FormButton
-                  texto="Não! Continuo aqui"
-                  onPress={() => setConfirmarDelete(false)}
-                />
+                <Form.Button onPress={() => setConfirmarDelete(false)}>
+                  Não! Continuo aqui
+                </Form.Button>
               </>
             )}
           </View>
@@ -371,14 +367,14 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
     );
   }
 
-  // ── TELA DE PERFIL (visualização) ─────────────────────────
+  // ── TELA DE PERFIL (VISUALIZAÇÃO) ─────────────────────────
   return (
     <View style={estilos.screen}>
       {isLoading && <Loading />}
 
       <View style={estilos.header}>
         <Text style={estilos.appName}>MEU PERFIL</Text>
-        <Icone name="bell" size={15} color="#3B0A1F" />
+        <Icone name="bell" size={15} color="#fff" />
       </View>
 
       <ScrollView
@@ -400,16 +396,19 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
           <Text style={estilos.cargo}>{area}</Text>
 
           <View style={estilos.cidadeRow}>
-            <Icone name="map-pin" size={13} color="#7A4A5A" />
+            <Icone name="map-pin" size={13} color="#E8C9D0" />
             <Text style={estilos.cidadeTexto}>{cidade}</Text>
           </View>
 
-          <TouchableOpacity style={estilos.botaoEditar} onPress={abrirEdicao}>
-            <Text style={estilos.botaoEditarTexto}>Editar Perfil</Text>
+          <TouchableOpacity
+            style={estilos.botaoEditarFlutuante}
+            onPress={abrirEdicao}
+          >
+            <Icone name="edit-2" size={20} color="#fff" />
           </TouchableOpacity>
-        </View>
 
-        <View style={estilos.divisorLinha} />
+          <Text style={estilos.botaoEditarLabel}>Editar perfil</Text>
+        </View>
 
         <Text style={estilos.acessosLabel}>ACESSOS RÁPIDOS</Text>
 
@@ -417,7 +416,7 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
           <TouchableOpacity key={item.label} style={estilos.itemAcesso}>
             <View style={estilos.itemAcessoEsquerda}>
               <View style={estilos.itemAcessoIconeWrapper}>
-                <Icone name={item.icone} size={18} color="#6B1A35" />
+                <Icone name={item.icone} size={18} color="#fff" />
               </View>
               <Text style={estilos.itemAcessoTexto}>{item.label}</Text>
             </View>
@@ -429,4 +428,4 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
       <Toast />
     </View>
   );
-}
+};
