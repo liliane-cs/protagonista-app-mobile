@@ -1,20 +1,14 @@
 import React from 'react'
-
 import { NavigationContainer } from '@react-navigation/native'
-
 import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack'
-
 import { StackParamList } from './navigation'
-
 // import { Login } from '../pages/Login'
 // import { Cadastro } from '../pages/Cadastro'
-
 import { DrawerRoutes } from './drawer.routes'
-
 // import { ProfissionalDetalhe } from '../pages/ProfissionalDetalhe'
-// import { OportunidadeDetalhe } from '../pages/OportunidadeDetalhe'
+import { DetalheOportunidade } from '../pages/DetalheOportunidade'
 
 const Stack =
   createNativeStackNavigator<StackParamList>()
@@ -45,12 +39,12 @@ export const StackRoutes = () => {
         {/* <Stack.Screen
           name="ProfissionalDetalhe"
           component={ProfissionalDetalhe}
-        />
+        /> */}
 
         <Stack.Screen
-          name="OportunidadeDetalhe"
-          component={OportunidadeDetalhe}
-        /> */}
+          name="DetalheOportunidade"
+          component={DetalheOportunidade}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
