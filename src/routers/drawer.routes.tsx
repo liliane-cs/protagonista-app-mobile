@@ -1,26 +1,28 @@
-import React from 'react'
-import { View, Text } from 'react-native'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import React from "react";
+import { View, Text } from "react-native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import { DrawerParamList } from './navigation'
+import { DrawerParamList } from "./navigation";
 
-import { TabsRoutes } from './tab.routes'
-import { MeuPerfil } from '../pages/MeuPerfil'
+import { TabsRoutes } from "./tab.routes";
+import { Home } from "../pages/Home";
+import { TelaInicio } from "../pages/TelaInicial";
+import { MeuPerfil } from "../pages/MeuPerfil";
 
-const Drawer = createDrawerNavigator<DrawerParamList>()
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function PlaceholderScreen() {
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Text>Tela em construção</Text>
     </View>
-  )
+  );
 }
 
 export const DrawerRoutes = () => {
@@ -30,31 +32,27 @@ export const DrawerRoutes = () => {
         headerShown: false,
       }}
     >
-      {/* <Drawer.Screen
+      <Drawer.Screen
         name="HomeTabs"
         component={TabsRoutes}
         options={{
-          drawerLabel: 'Início',
+          drawerLabel: "Início",
         }}
-      /> */}
-
-      <Drawer.Screen
-        name="Profissionais"
-        component={PlaceholderScreen}
       />
 
-      <Drawer.Screen
-        name="Favoritos"
-        component={PlaceholderScreen}
-      />
+      {/* <Drawer.Screen name="Inicio" component={TelaInicio} /> */}
+      {/* <Drawer.Screen name="Home" component={Home} /> */}
+      <Drawer.Screen name="Profissionais" component={PlaceholderScreen} />
+
+      <Drawer.Screen name="Favoritos" component={PlaceholderScreen} />
 
       <Drawer.Screen
         name="MeuPerfil"
         component={MeuPerfil}
         options={{
-          drawerLabel: 'Meu Perfil',
+          drawerLabel: "Meu Perfil",
         }}
-      /> 
+      />
     </Drawer.Navigator>
-  )
-}
+  );
+};
