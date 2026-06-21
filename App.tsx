@@ -1,3 +1,4 @@
+import "react-native-reanimated";
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, ActivityIndicator } from "react-native";
@@ -34,7 +35,7 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <StatusBar style="auto" />
-      <Routers />
+      <StackRoutes />
       <Toast />
     </GestureHandlerRootView>
   );
