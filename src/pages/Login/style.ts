@@ -29,7 +29,7 @@ export const estilos = StyleSheet.create({
 
   sombraUniforme: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: colors.fundoPrincipal + "25",
+    backgroundColor: colors.fundoPrincipal + "355",
     zIndex: 2,
   },
 
@@ -38,7 +38,7 @@ export const estilos = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 290,
+    height: 400,
     zIndex: 2,
   },
 

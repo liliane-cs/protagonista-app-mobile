@@ -27,7 +27,7 @@ export const StackRoutes = () => {
           headerShown: false,
         }}
       >
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Login"
           component={Login}
         />
@@ -35,22 +35,22 @@ export const StackRoutes = () => {
         <Stack.Screen
           name="Cadastro"
           component={Cadastro}
-        /> */}
+        />
 
         <Stack.Screen
           name="DrawerRoutes"
           component={DrawerRoutes}
         />
 
-        {/* <Stack.Screen
+        {/* {/* <Stack.Screen
           name="ProfissionalDetalhe"
           component={ProfissionalDetalhe}
         /> */}
-{/* 
-        <Stack.Screen
+{/*  */}
+        {/* <Stack.Screen
           name="DetalheOportunidade"
           component={DetalheOportunidade}
-        /> */}
+        /> */} 
       </Stack.Navigator>
     </NavigationContainer>
   )

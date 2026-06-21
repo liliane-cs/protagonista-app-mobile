@@ -138,7 +138,7 @@ export const Cadastro = () => {
               <Form.Input
                 label="Nome"
                 icon="user"
-                placeholder="Seu nome de protagonista"
+                placeholder="Seu nome "
                 value={nome}
                 onChangeText={setNome}
               />
@@ -155,7 +155,7 @@ export const Cadastro = () => {
               <Form.Input
                 label="Área de atuação"
                 icon="briefcase"
-                placeholder="Em qual área você brilha?"
+                placeholder="Qual área você brilha?"
                 value={area}
                 onChangeText={setArea}
               />
@@ -163,7 +163,7 @@ export const Cadastro = () => {
               <Form.Input
                 label="Cidade"
                 icon="map-pin"
-                placeholder="De onde você transforma?"
+                placeholder= "Onde você transforma?"
                 value={cidade}
                 onChangeText={setCidade}
               />
