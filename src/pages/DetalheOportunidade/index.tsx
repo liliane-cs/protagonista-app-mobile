@@ -8,9 +8,9 @@ import { styles } from "./style";
 import Button from "../../components/Button";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
+import axios from "axios";
 
-type DetalheRouteProp = RouteProp<StackParamList, "DetalheOportunidade">;
-
+type DetalheRouteProp = RouteProp<StackParamList, "OportunidadeDetalhe">;
 interface Props {
   route: DetalheRouteProp;
 }
@@ -26,6 +26,7 @@ export const DetalheOportunidade = ({ route }: Props) => {
     async function fetchData() {
       try {
         const data = await getOportunidadeById(id);
+        console.log(data);
         setOportunidade(data);
       } catch (err) {
         console.error("Erro ao carregar detalhe", err);
@@ -39,7 +40,8 @@ export const DetalheOportunidade = ({ route }: Props) => {
 
   if (loading) return <Loading mensagem="Carregando detalhes..." />;
   if (erro) return <ErrorMessage mensagem={erro} />;
-  if (!oportunidade) return <ErrorMessage mensagem="Oportunidade não encontrada." />;
+  if (!oportunidade)
+    return <ErrorMessage mensagem="Oportunidade não encontrada." />;
 
   return (
     <View style={styles.container}>
@@ -61,7 +63,10 @@ export const DetalheOportunidade = ({ route }: Props) => {
         Voltar
       </Button>
 
-      <Button variante="outline" onPress={() => console.log("Salvar no calendário")}>
+      <Button
+        variante="outline"
+        onPress={() => console.log("Salvar no calendário")}
+      >
         Salvar no calendário
       </Button>
     </View>

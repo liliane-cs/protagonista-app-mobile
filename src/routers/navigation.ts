@@ -5,21 +5,26 @@ export type TabParamList = {
   Oportunidades: undefined;
   Cursos: undefined;
   Apoio: undefined;
+  Profissionais: undefined;
 };
 
 export type DrawerParamList = {
   HomeTabs: NavigatorScreenParams<TabParamList>;
+  Inicio: undefined;
+  Home: undefined;
   Profissionais: undefined;
   Favoritos: undefined;
   MeuPerfil: undefined;
 };
 
 export type StackParamList = {
+  Inicio: undefined;
+  Home: undefined;
+  MeuPerfil: undefined;
   Login: undefined;
   Cadastro: undefined;
   DrawerRoutes: undefined;
 
-  
   ProfissionalDetalhe: {
     id: string;
   };

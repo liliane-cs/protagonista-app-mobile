@@ -1,31 +1,30 @@
 import { StyleSheet } from "react-native";
-
-export const cores = {
-  rosaEscuro: "#C2185B",
-  textoInvertido: "#FFFFFF",
-};
+import { colors } from "../../styles/theme";
 
 export const styles = StyleSheet.create({
   base: {
     width: "100%",
+    maxWidth: 400,
     height: 56,
     borderRadius: 16,
-    backgroundColor: cores.rosaEscuro,
+    backgroundColor: colors.vinhoEscuro,
     borderWidth: 0,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
+    gap: 10,
   },
   outline: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: cores.rosaEscuro,
+    borderColor: colors.vinhoEscuro,
   },
   texto: {
     fontSize: 16,
     fontWeight: "600",
-    color: cores.textoInvertido,
+    color: colors.textoInvertido,
   },
   textoOutline: {
-    color: cores.rosaEscuro,
+    color: colors.vinhoEscuro,
   },
 });
