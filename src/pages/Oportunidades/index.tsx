@@ -84,7 +84,9 @@ export const Oportunidades = () => {
               favoritado={false}
               aoFavoritar={() => console.log("Favoritar", item.id)}
               onPress={() =>
-                navigation.navigate("DetalheOportunidade", { id: String(item.id) })
+                navigation.navigate("OportunidadeDetalhe", {
+                  id: String(item.id),
+                })
               }
             />
           )}

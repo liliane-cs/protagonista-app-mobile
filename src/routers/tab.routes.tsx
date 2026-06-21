@@ -11,6 +11,8 @@ import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import { colors } from "../styles/theme";
+import { Oportunidades } from "../pages/Oportunidades";
+import Profissionais from "../pages/Profissionais";
 
 const Tab = createBottomTabNavigator<TabParamList>();
 type IconName = React.ComponentProps<typeof Ionicons>["name"];
@@ -38,7 +40,7 @@ export const TabsRoutes = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        // headerShown: false,
+        headerShown: false,
         tabBarStyle: styles.tabBar,
         tabBarLabelStyle: styles.label,
         tabBarActiveTintColor: colors.vinhoEscuro,
@@ -56,12 +58,7 @@ export const TabsRoutes = () => {
       />
       <Tab.Screen
         name="Profissionais"
-        // component={Profissionais}
-        component={() => (
-          <View>
-            <Text>Profissionais</Text>
-          </View>
-        )}
+        component={Profissionais}
         options={{
           tabBarIcon: ({ focused }) => renderIcon("people-outline", focused),
           tabBarLabel: "",
@@ -69,12 +66,7 @@ export const TabsRoutes = () => {
       />
       <Tab.Screen
         name="Oportunidades"
-        // component={Oportunidades}
-        component={() => (
-          <View>
-            <Text>Oportunidades</Text>
-          </View>
-        )}
+        component={Oportunidades}
         options={{
           tabBarIcon: ({ focused }) => renderIcon("briefcase-outline", focused),
           tabBarLabel: "",

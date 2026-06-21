@@ -26,12 +26,20 @@ export const TelaInicio = ({ navigation }: Props) => {
 
       <View style={styles.bottomContainer}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Login")}
+          >
             <Text style={styles.buttonText}>Entrar</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={[styles.button, styles.buttonSecondary]}>
-            <Text style={styles.buttonSecondaryText}>Cadastrar</Text>
+            <Text
+              style={styles.buttonSecondaryText}
+              onPress={() => navigation.navigate("Cadastro")}
+            >
+              Cadastrar
+            </Text>
           </TouchableOpacity>
         </View>
 

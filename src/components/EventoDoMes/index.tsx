@@ -35,7 +35,6 @@ export function EventoDoMes({ evento }: EventoDoMesProps) {
         <Ionicons name="time-outline" size={15} />
         {new Date(evento.data).toLocaleString()}
       </Text>
-      <Text style={{ marginBottom: 10 }}>{evento.descricao}</Text>
 
       <Button onPress={adicionarAoCalendar}>
         <Ionicons

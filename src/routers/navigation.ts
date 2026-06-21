@@ -10,6 +10,7 @@ export type TabParamList = {
 
 export type DrawerParamList = {
   HomeTabs: NavigatorScreenParams<TabParamList>;
+  Inicio: undefined;
   Home: undefined;
   Profissionais: undefined;
   Favoritos: undefined;
@@ -19,6 +20,7 @@ export type DrawerParamList = {
 export type StackParamList = {
   Inicio: undefined;
   Home: undefined;
+  MeuPerfil: undefined;
   Login: undefined;
   Cadastro: undefined;
   DrawerRoutes: undefined;

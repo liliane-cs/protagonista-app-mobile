@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { styles } from "./style";
-import fundo from "../../../assets/imagemEntrada.png";
 import banner from "../../../assets/bannerHome.png";
 import { Modal } from "react-native";
 
 import {
-  ImageBackground,
   View,
   Text,
   TouchableOpacity,
@@ -22,8 +20,14 @@ import { colors } from "../../styles/theme";
 import { MapaProfissionais } from "../../components/MapaProfissionais";
 import { Evento } from "../../types/evento";
 import { EventoDoMes } from "../../components/EventoDoMes";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackParamList } from "../../routers/navigation";
+
+type NavigationProps = NativeStackNavigationProp<StackParamList, "Home">;
 
 export const Home = () => {
+  const navigation = useNavigation<NavigationProps>();
   const [nome, setNome] = useState("");
 
   const [livros, setLivros] = useState<Livro[]>([]);
@@ -123,11 +127,13 @@ export const Home = () => {
             size={35}
             color={colors.rosaQueimado}
           />
-          <Ionicons
-            name="person-circle"
-            size={35}
-            color={colors.rosaQueimado}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("MeuPerfil")}>
+            <Ionicons
+              name="person-circle"
+              size={35}
+              color={colors.rosaQueimado}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <Image source={banner} style={styles.banner} resizeMode="cover" />

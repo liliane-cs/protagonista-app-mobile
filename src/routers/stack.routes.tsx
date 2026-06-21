@@ -12,9 +12,10 @@ import { Cadastro } from "../pages/Cadastro";
 import { DrawerRoutes } from "./drawer.routes";
 import { TelaInicio } from "../pages/TelaInicial";
 
-import { Ionicons } from "@expo/vector-icons";
-import { colors } from "../styles/theme";
 import { Home } from "../pages/Home";
+import { DetalheOportunidade } from "../pages/DetalheOportunidade";
+import { MeuPerfil } from "../pages/MeuPerfil";
+import ProfissionalDetalhe from "../pages/DetalheProfissional";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -45,7 +46,16 @@ export const StackRoutes = () => {
         <Stack.Screen name="Cadastro" component={Cadastro} />
 
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="MeuPerfil" component={MeuPerfil} />
         <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
+        <Stack.Screen
+          name="OportunidadeDetalhe"
+          component={DetalheOportunidade}
+        />
+        <Stack.Screen
+          name="ProfissionalDetalhe"
+          component={ProfissionalDetalhe}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
