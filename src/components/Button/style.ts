@@ -11,6 +11,8 @@ export const styles = StyleSheet.create({
     borderWidth: 0,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "row",
+    gap: 10,
   },
   outline: {
     backgroundColor: "transparent",

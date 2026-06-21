@@ -3,7 +3,7 @@ import { colors } from "../styles/theme";
 
 export const styles = StyleSheet.create({
   tabBar: {
-    height: 70,
+    height: 60,
     paddingBottom: 8,
     paddingTop: 8,
     backgroundColor: colors.fundoPrincipal,
@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 6,
+    height: 30,
     borderRadius: 999,
     width: 30,
   },

@@ -6,14 +6,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 10,
-    width: 90,
+    width: 80,
   },
 
   label: {
     fontFamily: fonts.body,
     marginTop: 6,
-    fontSize: 12,
-    color: "#333",
+    fontSize: 10,
+    color: colors.textoSecundario,
   },
 
   overlay: {
@@ -32,14 +32,14 @@ export const styles = StyleSheet.create({
   },
 
   modalTitle: {
-    fontSize: 18,
+    fontSize: 16,
     marginBottom: 20,
     textTransform: "uppercase",
     fontFamily: fonts.title,
     color: colors.vinhoEscuro,
   },
   modalText: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 20,
   },
 

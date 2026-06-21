@@ -73,6 +73,14 @@ export const styles = StyleSheet.create({
 
   // Home
 
+  headerHome: { marginTop: 10 },
+  accountIcon: {
+    position: "absolute",
+    right: 0,
+    top: 12,
+    flexDirection: "row",
+  },
+
   home: {
     fontFamily: fonts.body,
     padding: 20,

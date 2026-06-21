@@ -10,6 +10,9 @@ import { StackParamList } from "./navigation";
 // import { Cadastro } from '../pages/Cadastro'
 
 import { DrawerRoutes } from "./drawer.routes";
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "../styles/theme";
+import { Home } from "../pages/Home";
 
 // import { ProfissionalDetalhe } from '../pages/ProfissionalDetalhe'
 // import { OportunidadeDetalhe } from '../pages/OportunidadeDetalhe'
@@ -24,6 +27,19 @@ export const StackRoutes = () => {
           headerShown: false,
         }}
       >
+        {/* <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerRight: () => (
+              <Ionicons
+                name="person-circle"
+                size={30}
+                color={colors.rosaQueimado}
+              />
+            ),
+          }}
+        /> */}
         {/* <Stack.Screen
           name="Login"
           component={Login}

@@ -21,14 +21,13 @@ const renderIcon = (iconName: IconName, focused: boolean) => {
         styles.iconContainer,
         focused && {
           backgroundColor: colors.vinhoEscuro,
-          transform: "scale(1.3)",
-          marginTop: 10,
+          transform: "scale(1.1)",
         },
       ]}
     >
       <Ionicons
         name={iconName}
-        size={16}
+        size={18}
         color={focused ? colors.bege : colors.vinhoEscuro}
       />
     </View>
@@ -52,8 +51,7 @@ export const TabsRoutes = () => {
         component={Home}
         options={{
           tabBarIcon: ({ focused }) => renderIcon("home-outline", focused),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? null : <Text style={styles.label}>Home</Text>,
+          tabBarLabel: "",
         }}
       />
       <Tab.Screen
@@ -66,10 +64,7 @@ export const TabsRoutes = () => {
         )}
         options={{
           tabBarIcon: ({ focused }) => renderIcon("people-outline", focused),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? null : (
-              <Text style={{ fontSize: 12, color }}>Profissionais</Text>
-            ),
+          tabBarLabel: "",
         }}
       />
       <Tab.Screen
@@ -82,8 +77,7 @@ export const TabsRoutes = () => {
         )}
         options={{
           tabBarIcon: ({ focused }) => renderIcon("briefcase-outline", focused),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? null : <Text style={styles.label}>Oportunidade</Text>,
+          tabBarLabel: "",
         }}
       />
 
@@ -97,8 +91,7 @@ export const TabsRoutes = () => {
         )}
         options={{
           tabBarIcon: ({ focused }) => renderIcon("book-outline", focused),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? null : <Text style={styles.label}>Cursos</Text>,
+          tabBarLabel: "",
         }}
       />
       <Tab.Screen
@@ -107,8 +100,7 @@ export const TabsRoutes = () => {
         options={{
           tabBarIcon: ({ focused }) =>
             renderIcon("people-circle-outline", focused),
-          tabBarLabel: ({ focused, color }) =>
-            focused ? null : <Text style={styles.label}>Apoio</Text>,
+          tabBarLabel: "",
         }}
       />
     </Tab.Navigator>

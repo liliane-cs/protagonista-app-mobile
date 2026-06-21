@@ -18,6 +18,13 @@ import { IconeCard } from "../../components/IconeCard";
 import { Livro } from "./types";
 import Button from "../../components/Button";
 import { Ionicons } from "@expo/vector-icons";
+import { colors } from "../../styles/theme";
+import { MapaProfissionais } from "../../components/MapaProfissionais";
+import { Evento } from "../../types/evento";
+import { EventoDoMes } from "../../components/EventoDoMes";
+
+const image =
+  "https://media.gettyimages.com/id/1608583394/pt/foto/portrait-of-a-middle-aged-japanese-woman.jpg?s=612x612&w=0&k=20&c=DhBCbFhnmc2A6x1Ibu1Gg2ze-xFQCwnxaWfO0xgA7hk=";
 
 export const Home = () => {
   const [modo, setModo] = useState<"inicio" | "home">("home");
@@ -28,6 +35,13 @@ export const Home = () => {
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const evento: Evento = {
+    titulo: "Workshop Mulheres na Tecnologia",
+    data: "2026-07-10T19:00:00",
+    local: "Online",
+    descricao: "Um evento para impulsionar mulheres na área tech 🚀",
+  };
 
   const getSaudacao = () => {
     const hora = new Date().getHours();
@@ -146,8 +160,23 @@ export const Home = () => {
   if (modo === "home") {
     return (
       <ScrollView style={styles.home}>
-        <Text style={styles.saudacao}>{saudacao}</Text>
-        <Text>Que bom te ver por aqui!</Text>
+        <View style={styles.headerHome}>
+          <Text style={styles.saudacao}>{saudacao}</Text>
+          <Text>Que bom te ver por aqui!</Text>
+
+          <View style={styles.accountIcon}>
+            <Ionicons
+              name="heart-outline"
+              size={35}
+              color={colors.rosaQueimado}
+            />
+            <Ionicons
+              name="person-circle"
+              size={35}
+              color={colors.rosaQueimado}
+            />
+          </View>
+        </View>
         <Image source={banner} style={styles.banner} resizeMode="cover" />
 
         <Text style={styles.titleHome}>O que você vai encontrar aqui</Text>
@@ -195,6 +224,8 @@ export const Home = () => {
           por anúncio."
           />
         </View>
+
+        <EventoDoMes evento={evento} />
 
         <View style={styles.headerLivros}>
           <View>
@@ -255,6 +286,9 @@ export const Home = () => {
             </View>
           </View>
         </Modal>
+
+        <Text style={styles.titleHome}>Estamos em todo lugar</Text>
+        {/* <MapaProfissionais /> */}
       </ScrollView>
     );
   }
