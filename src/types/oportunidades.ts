@@ -1,10 +1,9 @@
-export interface Oportunidade {
-  id: number;
+export type Oportunidade = {
+  id: string;          
   titulo: string;
-  area: string;
-  empresa: string;
-  tipo: string;
-  local: string;
   descricao: string;
-  imagem: string;
-}
+  imagem?: string;
+  tipo?: string;        
+  local?: string;       
+  publicadoEm?: string; 
+};

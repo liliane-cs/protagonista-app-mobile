@@ -1,17 +1,18 @@
+// import 'react-native-reanimated';
+// import "react-native-gesture-handler";
 // import { StatusBar } from "expo-status-bar";
-// import { StyleSheet, Text, View } from "react-native";
+// import { StyleSheet, View, ActivityIndicator } from "react-native";
 // import { useFonts } from "expo-font";
 // import {
 //   LibreCaslonText_400Regular,
 //   LibreCaslonText_700Bold,
 // } from "@expo-google-fonts/libre-caslon-text";
-
 // import {
 //   PlusJakartaSans_400Regular,
 //   PlusJakartaSans_700Bold,
 // } from "@expo-google-fonts/plus-jakarta-sans";
-
-// import { Card } from "./src/components/Card";
+// import Toast from "react-native-toast-message";
+// import { StackRoutes } from "./src/routers/stack.routes";
 
 // export default function App() {
 //   const [fontsLoaded] = useFonts({
@@ -20,27 +21,20 @@
 //     PlusJakartaSans_400Regular,
 //     PlusJakartaSans_700Bold,
 //   });
+
+//   if (!fontsLoaded) {
+//     return (
+//       <View style={styles.container}>
+//         <ActivityIndicator size="large" color="#7a1218" />
+//       </View>
+//     );
+//   }
+
 //   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.tsx to start working on your app!</Text>
+//     <>
 //       <StatusBar style="auto" />
-//     </View>
+//       <StackRoutes />
+//       <Toast />
+//     </>
 //   );
 // }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
-
-
-import { MeuPerfil } from './src/pages/MeuPerfil'
-import { Routers } from './src/routers'
-
-export default function App() {
-  return <MeuPerfil/>
-}

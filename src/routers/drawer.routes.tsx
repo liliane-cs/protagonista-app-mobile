@@ -54,7 +54,7 @@ export const DrawerRoutes = () => {
         options={{
           drawerLabel: 'Meu Perfil',
         }}
-      />
+      /> 
     </Drawer.Navigator>
   )
 }

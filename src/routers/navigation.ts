@@ -24,7 +24,7 @@ export type StackParamList = {
     id: string;
   };
 
-  OportunidadeDetalhe: {
+  DetalheOportunidade: {
     id: string;
   };
 };
