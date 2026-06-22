@@ -1,36 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { RouteProp, useNavigation } from "@react-navigation/native";
-import { StackParamList } from "../../routers/navigation";
+import { View, Text, Button, Alert, Image, Share, ActivityIndicator } from "react-native";
+import { useRoute } from "@react-navigation/native";
 import { getOportunidadeById } from "../../services/protagonizaService";
 import { Oportunidade } from "../../types/oportunidades";
 import { styles } from "./style";
-import Button from "../../components/Button";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/Error";
-import axios from "axios";
 
-type DetalheRouteProp = RouteProp<StackParamList, "OportunidadeDetalhe">;
-interface Props {
-  route: DetalheRouteProp;
-}
+export const DetalheOportunidade = () => {
+  const route = useRoute();
+  const { id } = route.params as { id: string };
 
-export const DetalheOportunidade = ({ route }: Props) => {
-  const { id } = route.params;
-  const navigation = useNavigation();
   const [oportunidade, setOportunidade] = useState<Oportunidade | null>(null);
   const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const data = await getOportunidadeById(id);
-        console.log(data);
         setOportunidade(data);
-      } catch (err) {
-        console.error("Erro ao carregar detalhe", err);
-        setErro("Não foi possível carregar os detalhes da oportunidade.");
+      } catch {
+        Alert.alert("Erro", "Não foi possível carregar a oportunidade.");
       } finally {
         setLoading(false);
       }
@@ -38,17 +26,34 @@ export const DetalheOportunidade = ({ route }: Props) => {
     fetchData();
   }, [id]);
 
-  if (loading) return <Loading mensagem="Carregando detalhes..." />;
-  if (erro) return <ErrorMessage mensagem={erro} />;
-  if (!oportunidade)
-    return <ErrorMessage mensagem="Oportunidade não encontrada." />;
+  const compartilhar = async () => {
+    if (!oportunidade) return;
+    try {
+      await Share.share({
+        message: `Confira esta oportunidade!\n\n${oportunidade.titulo}\n${oportunidade.descricao}\nLocal: ${oportunidade.local ?? "Online"}\nPublicado em: ${oportunidade.publicadoEm ?? "Data não informada"}`,
+      });
+    } catch (err) {
+      const mensagem = err instanceof Error ? err.message : "Erro desconhecido";
+      Alert.alert("Erro", "Não foi possível compartilhar: " + mensagem);
+    }
+  };
+
+  if (loading) return <ActivityIndicator size="large" color="#7a1218" />;
+  if (!oportunidade) return <Text>Nenhuma oportunidade encontrada.</Text>;
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{oportunidade.titulo}</Text>
       <Text style={styles.description}>{oportunidade.descricao}</Text>
 
-      {/* Campos extras só no detalhe */}
+      {oportunidade.imagem && (
+        <Image
+          source={{ uri: oportunidade.imagem }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      )}
+
       {oportunidade.tipo && (
         <Text style={styles.meta}>Tipo: {oportunidade.tipo}</Text>
       )}
@@ -56,19 +61,18 @@ export const DetalheOportunidade = ({ route }: Props) => {
         <Text style={styles.meta}>Local: {oportunidade.local}</Text>
       )}
       {oportunidade.publicadoEm && (
-        <Text style={styles.meta}>Publicado: {oportunidade.publicadoEm}</Text>
+        <Text style={styles.meta}>Publicado em: {oportunidade.publicadoEm}</Text>
       )}
 
-      <Button variante="primario" onPress={() => navigation.goBack()}>
-        Voltar
-      </Button>
-
-      <Button
-        variante="outline"
-        onPress={() => console.log("Salvar no calendário")}
-      >
-        Salvar no calendário
-      </Button>
+      <View style={styles.buttonRow}>
+        <View style={styles.buttonWrapper}>
+          <Button
+            title="Compartilhar"
+            onPress={compartilhar}
+            color="#555"
+          />
+        </View>
+      </View>
     </View>
   );
 };
