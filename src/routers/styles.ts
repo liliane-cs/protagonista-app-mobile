@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../styles/theme";
+import { colors, fonts } from "../styles/theme";
+import { uppercase } from "zod";
 
 export const styles = StyleSheet.create({
   tabBar: {
@@ -26,5 +27,20 @@ export const styles = StyleSheet.create({
     height: 35,
     borderRadius: 999,
     width: 35,
+  },
+
+  title: {
+    fontFamily: fonts.bodyBold,
+    marginBottom: 10,
+    textTransform: "uppercase",
+    color: colors.vinhoEscuro,
+    letterSpacing: 0.5,
+  },
+
+  containerQrCode: {
+    padding: 20,
+    backgroundColor: colors.rosaClaro,
+    marginTop: "auto",
+    alignItems: "center",
   },
 });

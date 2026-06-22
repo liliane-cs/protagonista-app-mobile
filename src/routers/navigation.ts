@@ -19,6 +19,7 @@ export type StackParamList = {
   Inicio: undefined;
   Login: undefined;
   Cadastro: undefined;
+  Favoritos: undefined;
   DrawerRoutes: undefined;
   MeuPerfil: undefined;
   ProfissionalDetalhe: {

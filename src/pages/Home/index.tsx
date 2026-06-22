@@ -117,25 +117,8 @@ export const Home = () => {
 
   return (
     <ScrollView style={styles.home}>
-      <View style={styles.headerHome}>
-        <Text style={styles.saudacao}>{saudacao}</Text>
-        <Text>Que bom te ver por aqui!</Text>
-
-        <View style={styles.accountIcon}>
-          <Ionicons
-            name="heart-outline"
-            size={35}
-            color={colors.rosaQueimado}
-          />
-          <TouchableOpacity onPress={() => navigation.navigate("MeuPerfil")}>
-            <Ionicons
-              name="person-circle"
-              size={35}
-              color={colors.rosaQueimado}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Text style={styles.saudacao}>{saudacao}</Text>
+      <Text>Que bom te ver por aqui!</Text>
       <Image source={banner} style={styles.banner} resizeMode="cover" />
 
       <Text style={styles.titleHome}>O que você vai encontrar aqui</Text>

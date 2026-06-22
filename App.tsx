@@ -13,6 +13,8 @@ import {
   PlusJakartaSans_700Bold,
 } from "@expo-google-fonts/plus-jakarta-sans";
 import Toast from "react-native-toast-message";
+import { Routers } from "./src/routers/index";
+import RedeDeApoio from "./src/pages/RedeApoio";
 import { StackRoutes } from "./src/routers/stack.routes";
 import { AuthProvider } from "./src/contexts/AuthContext";
 

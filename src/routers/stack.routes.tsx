@@ -13,6 +13,8 @@ import ProfissionalDetalhe from "../pages/DetalheProfissional";
 import Loading from "../components/Loading";
 
 import { useAuth } from "../hook/useAuth";
+import { View } from "react-native";
+import { Text } from "react-native";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
