@@ -13,6 +13,7 @@ import { Text } from "react-native";
 import { colors } from "../styles/theme";
 import { Oportunidades } from "../pages/Oportunidades";
 import Profissionais from "../pages/Profissionais";
+import Cursos from "../pages/Cursos";
 
 const Tab = createBottomTabNavigator<TabParamList>();
 type IconName = React.ComponentProps<typeof Ionicons>["name"];
@@ -75,12 +76,8 @@ export const TabsRoutes = () => {
 
       <Tab.Screen
         name="Cursos"
-        //  component={Cursos}
-        component={() => (
-          <View>
-            <Text>Cursos</Text>
-          </View>
-        )}
+        component={Cursos}
+        
         options={{
           tabBarIcon: ({ focused }) => renderIcon("book-outline", focused),
           tabBarLabel: "",
