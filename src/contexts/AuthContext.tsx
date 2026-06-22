@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState, useEffect } from "react";
 import { AuthContextType } from "../types/authTypes";
 import { UsuarioLogado } from "../types/usuarioLogado";
+import React from "react";
 
 export const AuthContext = createContext<AuthContextType>({
   usuario: null,

@@ -180,7 +180,7 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       await removerSessao();
-      navigation.replace("Inicio");
+      navigation.replace("DrawerRoutes");
     } catch (error) {
       Toast.show({
         type: "error",
@@ -210,9 +210,13 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
       {
         text: "Galeria",
         onPress: async () => {
-          const permissao = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          const permissao =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
           if (!permissao.granted) {
-            Toast.show({ type: "error", text1: "Permissão de galeria negada!" });
+            Toast.show({
+              type: "error",
+              text1: "Permissão de galeria negada!",
+            });
             return;
           }
           const resultado = await ImagePicker.launchImageLibraryAsync({

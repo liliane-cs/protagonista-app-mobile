@@ -17,7 +17,7 @@ import * as AuthSession from "expo-auth-session";
 
 function parseUrlParams(url: string) {
   const params: Record<string, string> = {};
-  const queryString = url.split("#")[1]; 
+  const queryString = url.split("#")[1];
   if (queryString) {
     const pairs = queryString.split("&");
     pairs.forEach((pair) => {
@@ -67,7 +67,9 @@ export const DetalheOportunidade = () => {
     if (!oportunidade) return;
 
     try {
-      const redirectUri = AuthSession.makeRedirectUri({ scheme: "protagoniza" });
+      const redirectUri = AuthSession.makeRedirectUri({
+        scheme: "protagoniza",
+      });
       console.log("Redirect URI gerado:", redirectUri);
 
       const authUrl =
@@ -76,7 +78,10 @@ export const DetalheOportunidade = () => {
         `&redirect_uri=${encodeURIComponent(redirectUri)}` +
         `&scope=https://www.googleapis.com/auth/calendar.events`;
 
-      const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
+      const result = await WebBrowser.openAuthSessionAsync(
+        authUrl,
+        redirectUri,
+      );
 
       if (result.type === "success" && result.url) {
         const params = parseUrlParams(result.url);
@@ -84,7 +89,9 @@ export const DetalheOportunidade = () => {
 
         if (accessToken) {
           const startDate = new Date().toISOString();
-          const endDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
+          const endDate = new Date(
+            Date.now() + 2 * 60 * 60 * 1000,
+          ).toISOString();
 
           const response = await fetch(
             "https://www.googleapis.com/calendar/v3/calendars/primary/events",
@@ -101,7 +108,7 @@ export const DetalheOportunidade = () => {
                 start: { dateTime: startDate },
                 end: { dateTime: endDate },
               }),
-            }
+            },
           );
 
           if (response.ok) {
@@ -142,14 +149,16 @@ export const DetalheOportunidade = () => {
         <Text style={styles.meta}>Local: {oportunidade.local}</Text>
       )}
       {oportunidade.publicadoEm && (
-        <Text style={styles.meta}>Publicado em: {oportunidade.publicadoEm}</Text>
+        <Text style={styles.meta}>
+          Publicado em: {oportunidade.publicadoEm}
+        </Text>
       )}
 
       <View style={styles.buttonRow}>
-        <View style={styles.buttonWrapper}>
+        <View>
           <Button title="Compartilhar" onPress={compartilhar} color="#555" />
         </View>
-        <View style={styles.buttonWrapper}>
+        <View>
           <Button
             title="Salvar no Calendário"
             onPress={adicionarAoCalendario}

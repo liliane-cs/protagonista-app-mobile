@@ -1,5 +1,6 @@
 import { View, Text, Image, Pressable, TouchableOpacity } from "react-native";
 
+import React from "react";
 import { styles } from "./style";
 import { CardProps } from "./types";
 import { Ionicons } from "@expo/vector-icons";

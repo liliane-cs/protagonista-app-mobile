@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { IconeCardProps } from "./types";
 import { Modal, Text, TouchableOpacity, View } from "react-native";

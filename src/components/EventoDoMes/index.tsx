@@ -1,4 +1,5 @@
-import { View, Text, TouchableOpacity, Linking } from "react-native";
+import React from "react";
+import { View, Text, Linking } from "react-native";
 import { EventoDoMesProps } from "./type";
 import Button from "../Button";
 import { Ionicons } from "@expo/vector-icons";

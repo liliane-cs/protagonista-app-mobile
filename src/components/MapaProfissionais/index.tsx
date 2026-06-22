@@ -1,3 +1,4 @@
+import React from "react";
 import MapView, { Marker } from "react-native-maps";
 import { profissionaisMock } from "../../data/coordenadasMock";
 import { View } from "react-native";
@@ -8,8 +9,8 @@ export function MapaProfissionais() {
       initialRegion={{
         latitude: -14.235,
         longitude: -51.9253,
-        latitudeDelta: 35,
-        longitudeDelta: 35,
+        latitudeDelta: 50,
+        longitudeDelta: 50,
       }}
     >
       {profissionaisMock.map((prof) => {

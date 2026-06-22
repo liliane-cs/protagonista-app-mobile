@@ -1,4 +1,4 @@
-import { Feather } from "@expo/vector-icons";
+import { Feather, FontAwesome } from "@expo/vector-icons";
 import { KeyboardTypeOptions, ViewStyle, TextStyle } from "react-native";
 
 export type TitleProps = {
@@ -41,7 +41,7 @@ export type DividerProps = {
 
 export type RedeSocial = {
   nome: string;
-  icone: string;
+  icone: keyof typeof FontAwesome.glyphMap;
   onPress?: () => void;
 };
 
