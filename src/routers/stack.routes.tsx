@@ -18,17 +18,17 @@ import { Home } from "../pages/Home";
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export const StackRoutes = () => {
-  const { isLoadingAuth } = useAuth();
+  const { usuario, isLoadingAuth } = useAuth();
 
   if (isLoadingAuth) return <Loading />;
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Inicio" component={TelaInicio} />
-      <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
-      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Cadastro" component={Cadastro} />
+      <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
+      <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="MeuPerfil" component={MeuPerfil} />
       <Stack.Screen name="OportunidadeDetalhe" component={DetalheOportunidade} />
       <Stack.Screen name="ProfissionalDetalhe" component={ProfissionalDetalhe} />

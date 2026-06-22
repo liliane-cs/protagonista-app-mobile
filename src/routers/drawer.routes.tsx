@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { DrawerParamList } from "./navigation";
+import { StackParamList } from "./navigation";
 
 import { TabsRoutes } from "./tab.routes";
 import { MeuPerfil } from "../pages/MeuPerfil";
+import { Login } from "../pages/Login";
 import { colors, fonts } from "../styles/theme";
 import {
   createDrawerNavigator,
@@ -15,8 +17,9 @@ import { styles } from "./styles";
 import { useAuth } from "../hook/useAuth";
 import { Ionicons } from "@expo/vector-icons";
 import { Home } from "../pages/Home";
-import { Login } from "../pages/Login";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -35,8 +38,8 @@ function PlaceholderScreen() {
 }
 
 export const DrawerRoutes = () => {
-  const { usuario } = useAuth();
-  const { removerSessao } = useAuth();
+  const { usuario, removerSessao } = useAuth();
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
 
   const handleLogout = async () => {
     await removerSessao();
@@ -46,6 +49,8 @@ export const DrawerRoutes = () => {
       text1: "Sessão encerrada",
       text2: "Até logo!",
     });
+
+    navigation.replace("Inicio");
   };
 
   return (
