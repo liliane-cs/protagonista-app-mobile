@@ -1,14 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useState, useEffect } from "react";
-import { UsuarioLogado } from "../types/usuarioLogado";
 import { AuthContextType } from "../types/authTypes";
+import { UsuarioLogado } from "../types/usuarioLogado";
 
 export const AuthContext = createContext<AuthContextType>({
   usuario: null,
   isLoadingAuth: true,
   salvarSessao: async () => {},
   removerSessao: async () => {},
-  atualizarUsuario: () => {},
+  atualizarUsuario: async () => {},
 });
 
 interface PropsProvider {
@@ -23,9 +23,9 @@ export const AuthProvider = ({ children }: PropsProvider) => {
     try {
       const value = await AsyncStorage.getItem("@protagoniza:usuario");
 
-      if (value !== null) {
+      if (value) {
         setUsuario(JSON.parse(value));
-        console.log("Dados coletados com sucesso", value);
+        console.log("Sessão recuperada com sucesso");
       }
     } catch (error) {
       console.log("Erro ao buscar sessão", error);
@@ -44,7 +44,9 @@ export const AuthProvider = ({ children }: PropsProvider) => {
         "@protagoniza:usuario",
         JSON.stringify(dadosUsuario),
       );
+
       setUsuario(dadosUsuario);
+
       console.log("Sessão salva com sucesso");
     } catch (error) {
       console.log("Erro ao salvar sessão", error);
@@ -54,18 +56,29 @@ export const AuthProvider = ({ children }: PropsProvider) => {
   const removerSessao = async () => {
     try {
       await AsyncStorage.removeItem("@protagoniza:usuario");
+
       setUsuario(null);
+
       console.log("Sessão removida com sucesso");
     } catch (error) {
       console.log("Erro ao remover sessão", error);
     }
   };
 
-  const atualizarUsuario = (dados: Partial<UsuarioLogado>) => {
+  const atualizarUsuario = async (dados: Partial<UsuarioLogado>) => {
     if (!usuario) return;
-    const atualizado = { ...usuario, ...dados };
+
+    const atualizado = {
+      ...usuario,
+      ...dados,
+    };
+
     setUsuario(atualizado);
-    AsyncStorage.setItem("@protagoniza:usuario", JSON.stringify(atualizado));
+
+    await AsyncStorage.setItem(
+      "@protagoniza:usuario",
+      JSON.stringify(atualizado),
+    );
   };
 
   return (

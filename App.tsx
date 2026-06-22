@@ -1,8 +1,8 @@
 import "react-native-reanimated";
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import {
   LibreCaslonText_400Regular,
@@ -32,22 +32,15 @@ export default function App() {
     );
   }
 
-  return (
+ 
+   return (
+  <NavigationContainer>
     <AuthProvider>
-      <GestureHandlerRootView>
-        <StatusBar style="auto" />
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <StackRoutes />
         <Toast />
       </GestureHandlerRootView>
     </AuthProvider>
-  );
+  </NavigationContainer>
+);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

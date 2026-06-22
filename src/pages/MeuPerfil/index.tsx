@@ -1,20 +1,26 @@
 import { useState, useEffect } from "react";
+import { Alert } from "react-native";
+import { useAuth } from "../../hook/useAuth";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import Toast from "react-native-toast-message";
 import { Feather as Icone } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Form } from "../../components/Form";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
 
 import {
-  getProfissionais,
   atualizarProfissional,
   deletarProfissional,
 } from "../../services/protagonizaService";
 
 import { estilos } from "./style";
 import { MeuPerfilProps } from "./types";
+import { StackParamList } from "../../routers/navigation";
+
+type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
 const ACESSOS = [
   { icone: "heart", label: "Profissionais Salvos" },
@@ -24,9 +30,11 @@ const ACESSOS = [
 ] as const;
 
 export const MeuPerfil = ({}: MeuPerfilProps) => {
+  const { usuario, isLoadingAuth, atualizarUsuario, removerSessao } = useAuth();
+  const navigation = useNavigation<NavigationProps>();
+
   const [editando, setEditando] = useState(false);
 
-  const [id, setId] = useState("");
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [area, setArea] = useState("");
@@ -41,44 +49,20 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
   const [confirmarNovaSenha, setConfirmarNovaSenha] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [erro, setErro] = useState(false);
   const [confirmarDelete, setConfirmarDelete] = useState(false);
 
   useEffect(() => {
-    async function carregarPerfil() {
-      setIsLoading(true);
-
-      try {
-        const profissionais = await getProfissionais();
-        const usuarioLogado = profissionais[0];
-
-        if (!usuarioLogado) {
-          setErro(true);
-          return;
-        }
-
-        setId(String(usuarioLogado.id));
-        setNome(usuarioLogado.nome || "");
-        setEmail(usuarioLogado.email || "");
-        setArea(usuarioLogado.area || "");
-        setCidade(usuarioLogado.cidade || "");
-        setDescricao(usuarioLogado.descricao || "");
-        setContato(usuarioLogado.contato || "");
-        setFoto(usuarioLogado.foto || "");
-        setSenha(usuarioLogado.senha || "");
-      } catch (error) {
-        setErro(true);
-        Toast.show({
-          type: "error",
-          text1: "Algo não está certo, Protagonista!",
-        });
-      }
-
-      setIsLoading(false);
+    if (usuario) {
+      setNome(usuario.nome || "");
+      setEmail(usuario.email || "");
+      setArea(usuario.area || "");
+      setCidade(usuario.cidade || "");
+      setDescricao(usuario.descricao || "");
+      setContato(usuario.contato || "");
+      setFoto(usuario.foto || "");
+      setSenha(usuario.senha || "");
     }
-
-    carregarPerfil();
-  }, []);
+  }, [usuario]);
 
   function abrirEdicao() {
     setConfirmarDelete(false);
@@ -129,7 +113,7 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
     setIsLoading(true);
 
     try {
-      await atualizarProfissional(id, {
+      const dadosAtualizados = {
         nome,
         email,
         area,
@@ -138,7 +122,11 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
         contato,
         foto,
         senha: senhaFinal,
-      });
+      };
+
+      await atualizarProfissional(usuario!.id, dadosAtualizados);
+
+      await atualizarUsuario(dadosAtualizados);
 
       setSenha(senhaFinal);
       setSenhaAtual("");
@@ -161,33 +149,54 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
     setIsLoading(false);
   }
 
-  async function deletar() {
-    setIsLoading(true);
+  function confirmarDelecao() {
+    Alert.alert(
+      "Deletar conta",
+      "Tem certeza que deseja sair dos holofotes? Esta ação não pode ser desfeita.",
+      [
+        {
+          text: "Cancelar",
+          onPress: () => setConfirmarDelete(false),
+          style: "cancel",
+        },
+        {
+          text: "Deletar",
+          onPress: deletar,
+          style: "destructive",
+        },
+      ],
+    );
+  }
 
+  async function deletar() {
     try {
-      await deletarProfissional(id);
+      await deletarProfissional(usuario!.id);
 
       Toast.show({
         type: "success",
         text1: "Até logo, protagonista!",
       });
 
-      fecharEdicao();
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      await removerSessao();
+      navigation.replace("Inicio");
     } catch (error) {
       Toast.show({
         type: "error",
         text1: "Não foi possível encerrar sua jornada agora.",
       });
     }
-
-    setIsLoading(false);
   }
 
-  if (erro) {
+  if (isLoadingAuth) {
+    return <Loading />;
+  }
+
+  if (!usuario) {
     return <ErrorMessage />;
   }
 
-  // ── TELA DE EDITAR PERFIL ─────────────────────────────────
   if (editando) {
     return (
       <View style={estilos.screenEditar}>
@@ -348,7 +357,7 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
                 </Text>
                 <TouchableOpacity
                   style={estilos.botaoExcluir}
-                  onPress={deletar}
+                  onPress={confirmarDelecao}
                 >
                   <Text style={estilos.botaoExcluirTexto}>
                     Sim, quero sair dos holofotes
@@ -367,7 +376,6 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
     );
   }
 
-  // ── TELA DE PERFIL (VISUALIZAÇÃO) ─────────────────────────
   return (
     <View style={estilos.screen}>
       {isLoading && <Loading />}

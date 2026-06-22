@@ -5,5 +5,7 @@ export type AuthContextType = {
   isLoadingAuth: boolean;
   salvarSessao: (usuario: UsuarioLogado) => Promise<void>;
   removerSessao: () => Promise<void>;
-  atualizarUsuario: (dados: Partial<UsuarioLogado>) => void;
+  atualizarUsuario: (
+    dados: Partial<UsuarioLogado>
+  ) => Promise<void>;
 };
