@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Animated, View, Text, FlatList } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
 import { apiCursos } from "../../services/api";
@@ -17,6 +17,8 @@ export default function Cursos() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(false);
   const [areaSelecionada, setAreaSelecionada] = useState("");
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateAnim = useRef(new Animated.Value(-30)).current;
 
   //const { adicionarFavorito, estaFavoritado } =
   //useContext(FavoritosContext);
@@ -44,10 +46,27 @@ export default function Cursos() {
     carregarCursos();
   }, []);
 
+  // 2. Efeito isolado para a animação de entrada
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateAnim, {
+        toValue: 0,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [fadeAnim, translateAnim]);
+
   if (carregando) return <Loading />;
 
-  if (erro)
+  if (erro) {
     return <ErrorMessage mensagem="Não foi possível carregar os cursos." />;
+  }
 
   const areas = [...new Set(cursos.map((curso) => curso.area))];
 
@@ -58,7 +77,21 @@ export default function Cursos() {
   return (
     <View style={styles.container}>
       <View style={styles.cabecalho}>
-        <Text style={styles.titulo}>Cursos Profissionalizantes</Text>
+        <Animated.Text
+          style={[
+            styles.titulo,
+            {
+              opacity: fadeAnim,
+              transform: [
+                {
+                  translateY: translateAnim,
+                },
+              ],
+            },
+          ]}
+        >
+          Cursos Profissionalizantes
+        </Animated.Text>
 
         <View style={styles.filtroContainer}>
           <Picker
@@ -74,27 +107,27 @@ export default function Cursos() {
         </View>
       </View>
 
-      <FlatList
-        data={cursosFiltrados}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.lista}
-        renderItem={({ item }) => (
-          <Card
-            titulo={item.titulo}
-            descricao={item.area}
-            imagem={item.imagem}
-            //favoritado={estaFavoritado(item.id, "curso")}
-            //aoFavoritar={() =>
-            //adicionarFavorito({
-            //  ...item,
-            // tipo: "curso",
-            // })
-            //}
-          />
-        )}
-      />
+      <Animated.View
+        style={{
+          flex: 1,
+          opacity: fadeAnim,
+        }}
+      >
+        <FlatList
+          data={cursosFiltrados}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={styles.lista}
+          renderItem={({ item }) => (
+            <Card
+              titulo={item.titulo}
+              descricao={item.area}
+              imagem={item.imagem}
+            />
+          )}
+        />
+      </Animated.View>
     </View>
   );
 }
