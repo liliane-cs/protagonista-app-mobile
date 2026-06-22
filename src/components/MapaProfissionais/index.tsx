@@ -8,8 +8,8 @@ export function MapaProfissionais() {
       initialRegion={{
         latitude: -14.235,
         longitude: -51.9253,
-        latitudeDelta: 30,
-        longitudeDelta: 30,
+        latitudeDelta: 35,
+        longitudeDelta: 35,
       }}
     >
       {profissionaisMock.map((prof) => {

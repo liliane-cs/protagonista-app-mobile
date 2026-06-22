@@ -40,7 +40,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: "auto",
-    // width: 310,
   },
 
   titleHome: {

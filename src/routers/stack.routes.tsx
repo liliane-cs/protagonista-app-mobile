@@ -13,8 +13,7 @@ import ProfissionalDetalhe from "../pages/DetalheProfissional";
 import Loading from "../components/Loading";
 
 import { useAuth } from "../hook/useAuth";
-import { View } from "react-native";
-import { Text } from "react-native";
+import { Home } from "../pages/Home";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -41,6 +40,8 @@ export const StackRoutes = () => {
       ) : (
         <>
           <Stack.Screen name="Inicio" component={TelaInicio} />
+          <Stack.Screen name="DrawerRoutes" component={DrawerRoutes} />
+          <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Cadastro" component={Cadastro} />
         </>
