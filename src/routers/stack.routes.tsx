@@ -16,6 +16,8 @@ import { Home } from "../pages/Home";
 import { DetalheOportunidade } from "../pages/DetalheOportunidade";
 import { MeuPerfil } from "../pages/MeuPerfil";
 import ProfissionalDetalhe from "../pages/DetalheProfissional";
+import { View } from "react-native";
+import { Text } from "react-native";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -27,19 +29,6 @@ export const StackRoutes = () => {
           headerShown: false,
         }}
       >
-        {/* <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerRight: () => (
-              <Ionicons
-                name="person-circle"
-                size={30}
-                color={colors.rosaQueimado}
-              />
-            ),
-          }}
-        /> */}
         <Stack.Screen name="Inicio" component={TelaInicio} />
         <Stack.Screen name="Login" component={Login} />
 
@@ -55,6 +44,15 @@ export const StackRoutes = () => {
         <Stack.Screen
           name="ProfissionalDetalhe"
           component={ProfissionalDetalhe}
+        />
+        <Stack.Screen
+          name="Favoritos"
+          // component={Favoritos}
+          component={() => (
+            <View>
+              <Text>Cursos</Text>
+            </View>
+          )}
         />
       </Stack.Navigator>
     </NavigationContainer>

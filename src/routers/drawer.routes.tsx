@@ -1,14 +1,17 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-
 import { DrawerParamList } from "./navigation";
 
 import { TabsRoutes } from "./tab.routes";
-import { Home } from "../pages/Home";
-import { TelaInicio } from "../pages/TelaInicial";
 import { MeuPerfil } from "../pages/MeuPerfil";
-
+import { colors, fonts } from "../styles/theme";
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+} from "@react-navigation/drawer";
+import { QRCodeCard } from "../components/QrCode";
+import { styles } from "./styles";
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function PlaceholderScreen() {
@@ -28,23 +31,52 @@ function PlaceholderScreen() {
 export const DrawerRoutes = () => {
   return (
     <Drawer.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
+      screenOptions={() => ({
+        title: "Protagoniza",
+        headerStyle: {
+          backgroundColor: colors.vinhoEscuro,
+          height: 70,
+        },
+        drawerActiveTintColor: colors.bege,
+        drawerActiveBackgroundColor: colors.vinhoEscuro,
+
+        drawerInactiveTintColor: colors.vinhoEscuro,
+        drawerPosition: "right",
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 18,
+          fontFamily: fonts.title,
+          color: colors.textoInvertido,
+        },
+        headerTitleAlign: "left",
+        headerTintColor: colors.textoInvertido,
+      })}
+      drawerContent={(props) => (
+        <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
+          <DrawerItemList {...props} />
+
+          <View style={styles.containerQrCode}>
+            <Text style={styles.title}>Compartilhe seu perfil</Text>
+            <QRCodeCard caminho="usuario" />
+          </View>
+        </DrawerContentScrollView>
+      )}
     >
       <Drawer.Screen
-        name="HomeTabs"
+        name="Inicio"
         component={TabsRoutes}
         options={{
           drawerLabel: "Início",
         }}
       />
 
-      {/* <Drawer.Screen name="Inicio" component={TelaInicio} /> */}
-      {/* <Drawer.Screen name="Home" component={Home} /> */}
-      <Drawer.Screen name="Profissionais" component={PlaceholderScreen} />
-
-      <Drawer.Screen name="Favoritos" component={PlaceholderScreen} />
+      <Drawer.Screen
+        name="Favoritos"
+        component={PlaceholderScreen}
+        options={{
+          drawerLabel: "Favoritos",
+        }}
+      />
 
       <Drawer.Screen
         name="MeuPerfil"
