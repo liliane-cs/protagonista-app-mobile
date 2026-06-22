@@ -180,7 +180,7 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       await removerSessao();
-      navigation.replace("Inicio");
+      navigation.replace("DrawerRoutes");
     } catch (error) {
       Toast.show({
         type: "error",
