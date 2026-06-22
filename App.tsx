@@ -18,9 +18,9 @@ import {
 } from "@expo-google-fonts/plus-jakarta-sans";
 
 import Toast from "react-native-toast-message";
-
 import { StackRoutes } from "./src/routers/stack.routes";
 import { AuthProvider } from "./src/contexts/AuthContext";
+import { FavoritosProvider } from "./src/contexts/FavoritesContext";
 import SplashScreen from "./src/pages/Splash";
 
 export default function App() {
@@ -62,10 +62,12 @@ export default function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <StackRoutes />
-          <Toast />
-        </GestureHandlerRootView>
+        <FavoritosProvider>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <StackRoutes />
+            <Toast />
+          </GestureHandlerRootView>
+        </FavoritosProvider>
       </AuthProvider>
     </NavigationContainer>
   );
