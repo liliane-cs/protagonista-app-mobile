@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { styles } from "./style";
 import banner from "../../../assets/bannerHome.png";
 import { Modal } from "react-native";
 
@@ -23,12 +22,12 @@ import { EventoDoMes } from "../../components/EventoDoMes";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../routers/navigation";
-
-type NavigationProps = NativeStackNavigationProp<StackParamList, "Home">;
+import { styles } from "./style";
+import Toast from "react-native-toast-message";
+import { useAuth } from "../../hook/useAuth";
 
 export const Home = () => {
-  const navigation = useNavigation<NavigationProps>();
-  const [nome, setNome] = useState("");
+  const { usuario } = useAuth();
 
   const [livros, setLivros] = useState<Livro[]>([]);
   const [livroAtual, setLivroAtual] = useState<Livro | null>(null);
@@ -50,7 +49,9 @@ export const Home = () => {
     if (hora < 18) return "Boa tarde";
     return "Boa noite";
   };
-  const saudacao = nome ? `${getSaudacao()}, ${nome}` : `${getSaudacao()}`;
+  const saudacao = usuario
+    ? `${getSaudacao()}, ${usuario?.nome}`
+    : `${getSaudacao()}`;
 
   const getLivro = async (nome: string): Promise<Livro | null> => {
     try {
@@ -68,18 +69,36 @@ export const Home = () => {
   };
 
   const adicionarLivro = async () => {
-    if (!busca.trim()) return;
+    if (!busca.trim()) {
+      Toast.show({
+        type: "error",
+        text1: "Campo obrigatório",
+        text2: "Digite o nome de um livro",
+      });
 
-    setLoading(true);
+      return;
+    }
+
     const livro = await getLivro(busca);
 
     if (livro) {
       setLivros((prev) => [...prev, livro]);
       setLivroAtual(livro);
       setBusca("");
+
+      Toast.show({
+        type: "success",
+        text1: "Livro indicado",
+        text2: `"${livro.title}" foi adicionado com sucesso`,
+      });
+    } else {
+      Toast.show({
+        type: "error",
+        text1: "Livro não encontrado",
+        text2: "Tente pesquisar outro título",
+      });
     }
 
-    setLoading(false);
     setModalVisible(false);
   };
 
@@ -228,7 +247,7 @@ export const Home = () => {
       </Modal>
 
       <Text style={styles.titleHome}>Estamos em todo lugar</Text>
-      {/* <MapaProfissionais /> */}
+      <MapaProfissionais />
     </ScrollView>
   );
 };
