@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { supabase } from "../../services/supabase";
 import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 
 import { StackParamList } from "../../routers/navigation";
 import { estilos } from "./style";
@@ -29,6 +30,9 @@ export const Login = () => {
 
   const navigation = useNavigation<NavigationProps>();
   const { salvarSessao } = useAuth();
+
+  const redirectUrl =
+    process.env.EXPO_PUBLIC_REDIRECT_URL || "exp://localhost:8081/--/login";
 
   async function fazerLogin() {
     if (!email || !senha) {
@@ -93,64 +97,55 @@ export const Login = () => {
 
     setIsLoading(false);
   }
+
   async function loginComGoogle() {
-  setIsLoading(true);
+    setIsLoading(true);
 
-  try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: "exp://192.168.10.6:8081/--/login",
-        skipBrowserRedirect: true,
-      },
-    });
+    try {
+      const redirectTo = Linking.createURL("/");
 
-    if (error || !data.url) {
-      Toast.show({ type: "error", text1: "Erro ao entrar com Google!" });
-      setIsLoading(false);
-      return;
-    }
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo,
+        },
+      });
 
-    const result = await WebBrowser.openAuthSessionAsync(
-      data.url,
-      "exp://192.168.10.6:8081/--/login",
-    );
-
-    if (result.type === "success") {
-      const url = result.url;
-      const params = new URLSearchParams(url.split("#")[1]);
-      const accessToken = params.get("access_token");
-      const refreshToken = params.get("refresh_token");
-
-      if (!accessToken || !refreshToken) {
-        Toast.show({ type: "error", text1: "Erro ao obter tokens!" });
-        setIsLoading(false);
-        return;
-      }
-
-      const { data: sessionData, error: sessionError } =
-        await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken,
+      if (error) {
+        Toast.show({
+          type: "error",
+          text1: "Erro ao iniciar login com Google!",
         });
-
-      if (sessionError || !sessionData.user) {
-        Toast.show({ type: "error", text1: "Erro ao criar sessão!" });
-        setIsLoading(false);
         return;
       }
 
-      const user = sessionData.user;
+      const { data: session } = await supabase.auth.getSession();
+
+      if (!session?.session?.user) return;
+
+      const user = session.session.user;
+
+      await supabase.from("profissionais").upsert({
+        id: user.id,
+        nome: user.user_metadata?.full_name ?? "Usuária",
+        email: user.email,
+        foto: user.user_metadata?.picture ?? "",
+        area: "",
+        cidade: "",
+        descricao: "",
+        contato: "",
+        senha: "",
+      });
 
       await salvarSessao({
         id: user.id,
         nome: user.user_metadata?.full_name ?? user.email ?? "Usuária",
         email: user.email ?? "",
         senha: "",
-        area: user.user_metadata?.area ?? "",
-        cidade: user.user_metadata?.cidade ?? "",
-        descricao: user.user_metadata?.descricao ?? "",
-        contato: user.user_metadata?.contato ?? "",
+        area: "",
+        cidade: "",
+        descricao: "",
+        contato: "",
         foto: user.user_metadata?.picture ?? "",
       });
 
@@ -160,15 +155,16 @@ export const Login = () => {
         text2: "Que bom ter você aqui. ✨",
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 1500));
       navigation.replace("DrawerRoutes");
+    } catch {
+      Toast.show({
+        type: "error",
+        text1: "Erro no login com Google!",
+      });
+    } finally {
+      setIsLoading(false);
     }
- } catch {
-    Toast.show({ type: "error", text1: "Algo deu errado!" });
   }
-
-  setIsLoading(false);
-}
   return (
     <View style={estilos.container}>
       {isLoading && <Loading />}
