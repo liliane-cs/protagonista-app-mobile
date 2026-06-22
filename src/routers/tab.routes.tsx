@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { styles } from "./styles";
 import { TabParamList } from "./navigation";
+import Favoritos from "../pages/Favoritos";
 
 import { Home } from "../pages/Home";
 // import { Cursos } from "../pages/Cursos";
@@ -76,12 +77,12 @@ export const TabsRoutes = () => {
       <Tab.Screen
         name="Cursos"
         component={Cursos}
-        
         options={{
           tabBarIcon: ({ focused }) => renderIcon("book-outline", focused),
           tabBarLabel: "",
         }}
       />
+
       <Tab.Screen
         name="Apoio"
         component={RedeDeApoio}

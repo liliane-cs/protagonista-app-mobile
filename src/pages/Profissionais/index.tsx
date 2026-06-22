@@ -1,16 +1,28 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { View, Text, Image, FlatList, TextInput, TouchableOpacity, ActivityIndicator, SafeAreaView } from "react-native";
-import { useNavigation } from "@react-navigation/native"; 
+import React, { useState, useEffect, useMemo, useCallback, useContext } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+  SafeAreaView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
 import { getProfissionais } from "../../services/protagonizaService";
 import { Profissional } from "../../types/profissional";
 import { colors, fonts } from "../../styles/theme";
 import { makeStyles } from "./style";
-import { filtroSchema } from "../../schema"; 
+import { filtroSchema } from "../../schema";
+import { FavoritesContext } from "../../contexts/FavoritesContext";
+import { Card } from "../../components/Card";
 
 export const Profissionais: React.FC = () => {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
   const styles = makeStyles(colors, fonts);
+  const { adicionarFavorito, estaFavoritado } = useContext(FavoritesContext);
 
   const [profissionais, setProfissionais] = useState<Profissional[]>([]);
   const [busca, setBusca] = useState("");
@@ -24,7 +36,7 @@ export const Profissionais: React.FC = () => {
     } else {
       setLoading(true);
     }
-    
+
     try {
       setErro(false);
       const dados = await getProfissionais();
@@ -43,7 +55,7 @@ export const Profissionais: React.FC = () => {
 
   const profissionaisFiltrados = useMemo(() => {
     const resultadoValidacao = filtroSchema.safeParse({ termo: busca });
-    
+
     if (!resultadoValidacao.success || !resultadoValidacao.data.termo) {
       return profissionais;
     }
@@ -54,40 +66,32 @@ export const Profissionais: React.FC = () => {
       (p) =>
         p.nome.toLowerCase().includes(termoValidado) ||
         p.area.toLowerCase().includes(termoValidado) ||
-        p.cidade.toLowerCase().includes(termoValidado)
+        p.cidade.toLowerCase().includes(termoValidado),
     );
   }, [busca, profissionais]);
 
   function renderItem({ item }: { item: Profissional }) {
+    const idFavorito = `profissional-${item.id}`;
+
     return (
-      <View style={styles.card}>
-        <Image source={{ uri: item.foto }} style={styles.cardImage} resizeMode="cover" />
-
-        <View style={styles.cardInfo}>
-          <Text style={styles.cardName} numberOfLines={1}>
-            {item.nome}
-          </Text>
-          <Text style={styles.cardArea} numberOfLines={1}>
-            {item.area}
-          </Text>
-          <View style={styles.cardLocationRow}>
-            <MaterialIcons name="location-on" size={12} color={colors.textoSecundario} />
-            <Text style={styles.cardLocationText} numberOfLines={1}>
-              {item.cidade}
-            </Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={styles.verPerfilButton}
-          activeOpacity={0.8}
-          onPress={() =>
-            navigation.navigate("ProfissionalDetalhe", { id: String(item.id) })
-          }
-        >
-          <Text style={styles.verPerfilText}>Ver perfil</Text>
-        </TouchableOpacity>
-      </View>
+      <Card
+        titulo={item.nome}
+        descricao={`${item.area} • ${item.cidade}`}
+        imagem={item.foto ?? ""}
+        favoritado={estaFavoritado(idFavorito)}
+        aoFavoritar={() =>
+          adicionarFavorito({
+            id: idFavorito,
+            titulo: item.nome,
+            descricao: `${item.area} • ${item.cidade}`,
+            imagem: item.foto ?? "",
+            tipo: "profissional",
+          })
+        }
+        onPress={() =>
+          navigation.navigate("ProfissionalDetalhe", { id: String(item.id) })
+        }
+      />
     );
   }
 
@@ -95,7 +99,10 @@ export const Profissionais: React.FC = () => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backIcon} onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            style={styles.backIcon}
+            onPress={() => navigation.goBack()}
+          >
             <MaterialIcons name="arrow-back" size={22} color={colors.texto} />
           </TouchableOpacity>
 
@@ -123,12 +130,22 @@ export const Profissionais: React.FC = () => {
           </View>
         ) : erro ? (
           <View style={styles.centered}>
-            <MaterialIcons name="error-outline" size={40} color={colors.vinhoPrincipal} />
-            <Text style={styles.errorText}>Não foi possível carregar os profissionais</Text>
+            <MaterialIcons
+              name="error-outline"
+              size={40}
+              color={colors.vinhoPrincipal}
+            />
+            <Text style={styles.errorText}>
+              Não foi possível carregar os profissionais
+            </Text>
           </View>
         ) : profissionaisFiltrados.length === 0 ? (
           <View style={styles.centered}>
-            <MaterialIcons name="search-off" size={40} color={colors.textoSecundario} />
+            <MaterialIcons
+              name="search-off"
+              size={40}
+              color={colors.textoSecundario}
+            />
             <Text style={styles.emptyText}>Nenhum profissional encontrado</Text>
           </View>
         ) : (
