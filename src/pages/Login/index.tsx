@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { View, Text, ScrollView, Image, KeyboardAvoidingView, Platform } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
@@ -190,7 +197,11 @@ export const Login = () => {
             <View style={estilos.sombraUniforme} />
 
             <LinearGradient
-              colors={["transparent", darkColors.fundo + "cc", darkColors.fundo]}
+              colors={[
+                "transparent",
+                darkColors.fundo + "cc",
+                darkColors.fundo,
+              ]}
               locations={[0, 0.55, 1]}
               style={estilos.gradiente}
             />

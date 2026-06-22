@@ -32,7 +32,7 @@ export default function SplashScreen() {
           },
         ]}
       >
-        Conecta+
+        Protagoniza
       </Animated.Text>
 
       <Text style={styles.subtitulo}>

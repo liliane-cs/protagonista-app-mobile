@@ -46,7 +46,6 @@ export default function Cursos() {
     carregarCursos();
   }, []);
 
-  // 2. Efeito isolado para a animação de entrada
   useEffect(() => {
     Animated.parallel([
       Animated.timing(fadeAnim, {

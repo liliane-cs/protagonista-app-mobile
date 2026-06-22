@@ -3,7 +3,7 @@ import { colors, fonts } from "../styles/theme";
 
 export const styles = StyleSheet.create({
   tabBar: {
-    height: 65,
+    height: 80,
     paddingBottom: 8,
     paddingTop: 8,
     backgroundColor: colors.fundoPrincipal,

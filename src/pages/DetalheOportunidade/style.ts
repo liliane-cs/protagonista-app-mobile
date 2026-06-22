@@ -4,6 +4,7 @@ import { colors, fonts } from "../../styles/theme";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 40,
     backgroundColor: colors.fundo,
     padding: 20,
     alignItems: "center",       
