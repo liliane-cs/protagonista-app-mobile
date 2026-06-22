@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { useAuth } from "../../hook/useAuth";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
