@@ -165,9 +165,25 @@ npm run web
 
 ---
 
-## 📄 Licença
+## 👩‍💻 Equipe
+ 
+Projeto desenvolvido em grupo.
+ 
+| Integrante |
+|---|
+| Luisa Abreu |
+| Yasmim Verissimo |
+| Liliane Costa |
+| Nivea D'Avila |
+| Natasha Mendonça |
+| Anna Júlia Leite | 
+| Leticia Guimarães |
+ 
+---
+ 
+Feito com 💜 para empoderar mulheres.
+ 
 
-Este projeto é privado e de uso restrito.
 
 ---
 
