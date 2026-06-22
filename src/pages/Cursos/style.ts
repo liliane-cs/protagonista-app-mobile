@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { colors, fonts } from "../../styles/theme";
 
 export const styles = StyleSheet.create({
   container: {
@@ -14,15 +15,16 @@ export const styles = StyleSheet.create({
 
   titulo: {
     textAlign: "center",
-    color: "#333",
-    fontSize: 28,
-    fontWeight: "bold",
+    color: colors.vinhoEscuro,
+    fontSize: 24,
+    marginTop: 20,
+    fontFamily: fonts.title,
   },
 
   filtroContainer: {
-    width: "90%",
+    width: "80%",
     borderWidth: 2,
-    borderColor: "#d9d9d9",
+    borderColor: colors.begeEscuro,
     borderRadius: 8,
     overflow: "hidden",
     backgroundColor: "#fff",
@@ -34,7 +36,9 @@ export const styles = StyleSheet.create({
 
   row: {
     flexDirection: "column",
+    width: "100%",
     justifyContent: "space-between",
     marginBottom: 16,
+    alignItems: "center",
   },
 });
