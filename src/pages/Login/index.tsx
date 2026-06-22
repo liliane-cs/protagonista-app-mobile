@@ -1,5 +1,12 @@
-import { useState } from "react";
-import { View, Text, ScrollView, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
@@ -165,87 +172,98 @@ export const Login = () => {
       setIsLoading(false);
     }
   }
+
   return (
     <View style={estilos.container}>
       {isLoading && <Loading />}
 
-      <ScrollView
-        contentContainerStyle={estilos.conteudo}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
-        <View style={estilos.areaSuperior}>
-          <Image
-            source={require("../../assets/imagensGerais/imagem-login.png")}
-            style={estilos.imagemPessoa}
-            resizeMode="cover"
-          />
+        <ScrollView
+          contentContainerStyle={estilos.conteudo}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={estilos.areaSuperior}>
+            <Image
+              source={require("../../assets/imagensGerais/imagem-login.png")}
+              style={estilos.imagemPessoa}
+              resizeMode="cover"
+            />
 
-          <View style={estilos.sombraUniforme} />
+            <View style={estilos.sombraUniforme} />
 
-          <LinearGradient
-            colors={["transparent", darkColors.fundo + "cc", darkColors.fundo]}
-            locations={[0, 0.55, 1]}
-            style={estilos.gradiente}
-          />
+            <LinearGradient
+              colors={[
+                "transparent",
+                darkColors.fundo + "cc",
+                darkColors.fundo,
+              ]}
+              locations={[0, 0.55, 1]}
+              style={estilos.gradiente}
+            />
 
-          <View style={estilos.tituloWrapper}>
-            <Text style={estilos.tituloNormal}>
-              {"Seu lugar\nde "}
-              <Text style={estilos.tituloDestaque}>Protagonizar!</Text>
-            </Text>
-            <Text style={estilos.subtitulo}>
-              Faça login e descubra experiências únicas.
-            </Text>
+            <View style={estilos.tituloWrapper}>
+              <Text style={estilos.tituloNormal}>
+                {"Seu lugar\nde "}
+                <Text style={estilos.tituloDestaque}>Protagonizar!</Text>
+              </Text>
+              <Text style={estilos.subtitulo}>
+                Faça login e descubra experiências únicas.
+              </Text>
+            </View>
           </View>
-        </View>
 
-        <View style={estilos.formulario}>
-          <View style={estilos.campoPadding}>
-            <Form.Input
-              label=""
-              icon="mail"
-              placeholder="Seu e-mail ou usuário"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
+          <View style={estilos.formulario}>
+            <View style={estilos.campoPadding}>
+              <Form.Input
+                label=""
+                icon="mail"
+                placeholder="Seu e-mail ou usuário"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
+            </View>
+
+            <View style={estilos.campoPadding}>
+              <Form.Input
+                label=""
+                icon="lock"
+                placeholder="Sua senha"
+                value={senha}
+                onChangeText={setSenha}
+                isPassword
+              />
+            </View>
+
+            <Form.Link onPress={() => {}}>Esqueci minha senha</Form.Link>
+
+            <Form.Button onPress={fazerLogin} disabled={isLoading}>
+              Entrar
+            </Form.Button>
+
+            <Form.Divider>ou entre com</Form.Divider>
+
+            <Form.SocialButtons
+              redes={[
+                { nome: "google", icone: "google", onPress: loginComGoogle },
+                { nome: "facebook", icone: "facebook" },
+                { nome: "apple", icone: "apple" },
+              ]}
+            />
+
+            <Form.Footer
+              texto="Não tem uma conta?"
+              textoLink="Cadastre-se"
+              onPress={() => navigation.navigate("Cadastro")}
             />
           </View>
-
-          <View style={estilos.campoPadding}>
-            <Form.Input
-              label=""
-              icon="lock"
-              placeholder="Sua senha"
-              value={senha}
-              onChangeText={setSenha}
-              isPassword
-            />
-          </View>
-
-          <Form.Link onPress={() => {}}>Esqueci minha senha</Form.Link>
-
-          <Form.Button onPress={fazerLogin} disabled={isLoading}>
-            Entrar
-          </Form.Button>
-
-          <Form.Divider>ou entre com</Form.Divider>
-
-          <Form.SocialButtons
-            redes={[
-              { nome: "google", icone: "google", onPress: loginComGoogle },
-              { nome: "facebook", icone: "facebook" },
-              { nome: "apple", icone: "apple" },
-            ]}
-          />
-
-          <Form.Footer
-            texto="Não tem uma conta?"
-            textoLink="Cadastre-se"
-            onPress={() => navigation.navigate("Cadastro")}
-          />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <Toast />
     </View>

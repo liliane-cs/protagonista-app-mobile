@@ -7,15 +7,17 @@ export const styles = StyleSheet.create({
     marginTop: 40,
     backgroundColor: colors.fundo,
     padding: 20,
-    alignItems: "center",
+    alignItems: "center",       
+    justifyContent: "center",   
   },
 
   title: {
     fontSize: 24,
     fontFamily: fonts.title,
     color: colors.titulo,
-    marginBottom: 12,
+    marginBottom: 16,
     textAlign: "center",
+    maxWidth: 400,
   },
 
   description: {
@@ -23,8 +25,8 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.body,
     color: colors.texto,
     marginBottom: 20,
-    textAlign: "justify",
-    lineHeight: 22,
+    textAlign: "center",        
+    lineHeight: 24,
     maxWidth: 400,
   },
 
@@ -36,14 +38,19 @@ export const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 1,
     borderColor: colors.bordaSuave,
+    shadowColor: colors.roxo,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
   },
 
   meta: {
     fontSize: 14,
     fontFamily: fonts.body,
     color: colors.textoSecundario,
-    marginBottom: 6,
-    textAlign: "center",
+    marginBottom: 8,
+    textAlign: "center",        
+    maxWidth: 400,
   },
 
   buttonRow: {
@@ -51,5 +58,6 @@ export const styles = StyleSheet.create({
     maxWidth: 400,
     marginTop: 24,
     gap: 12,
+    alignItems: "center",      
   },
 });

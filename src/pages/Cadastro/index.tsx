@@ -35,7 +35,7 @@ export const Cadastro = () => {
   const navigation = useNavigation<NavigationProps>();
   const { salvarSessao } = useAuth();
 
-async function cadastrar() {
+  async function cadastrar() {
     if (!nome || !email || !area || !cidade || !senha || !confirmarSenha) {
       Toast.show({
         type: "error",
@@ -125,7 +125,8 @@ async function cadastrar() {
 
       <KeyboardAvoidingView
         style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
         <ScrollView
           showsVerticalScrollIndicator={false}
