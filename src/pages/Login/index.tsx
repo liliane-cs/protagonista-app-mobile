@@ -14,6 +14,7 @@ import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
 
 import { getProfissionais } from "../../services/protagonizaService";
+import { useAuth } from "../../hook/useAuth";
 
 type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
@@ -24,66 +25,71 @@ export const Login = () => {
   const [erro, setErro] = useState(false);
 
   const navigation = useNavigation<NavigationProps>();
+  const { salvarSessao } = useAuth();
 
   async function fazerLogin() {
-    if (!email || !senha) {
-      Toast.show({
-        type: "error",
-        text1: "Preencha todos os campos, protagonista!",
-      });
+  if (!email || !senha) {
+    Toast.show({
+      type: "error",
+      text1: "Preencha todos os campos, protagonista!",
+    });
+    return;
+  }
+
+  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!emailValido) {
+    Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
+    return;
+  }
+
+  if (senha.length < 6) {
+    Toast.show({
+      type: "error",
+      text1: "A senha deve ter no mínimo 6 caracteres!",
+    });
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    const profissionais = await getProfissionais();
+    const usuarioEncontrado = profissionais.find(
+      (user) => user.email === email && user.senha === senha,
+    );
+
+    if (!usuarioEncontrado) {
+      Toast.show({ type: "error", text1: "Email ou senha incorretos!" });
+      setIsLoading(false);
       return;
     }
 
-    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!emailValido) {
-      Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
-      return;
-    }
-
-    if (senha.length < 6) {
-      Toast.show({
-        type: "error",
-        text1: "A senha deve ter no mínimo 6 caracteres!",
-      });
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      const profissionais = await getProfissionais();
-      const usuarioEncontrado = profissionais.find(
-        (user) => user.email === email && user.senha === senha,
-      );
-
-      if (!usuarioEncontrado) {
-        Toast.show({ type: "error", text1: "Email ou senha incorretos!" });
-        setIsLoading(false);
-        return;
-      }
-
-      Toast.show({
-        type: "success",
-        text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
-        text2: "Que bom ter você aqui. ✨",
-      });
-
-      navigation.navigate("DrawerRoutes");
-    } catch {
-      setErro(true);
-      Toast.show({
-        type: "error",
-        text1: "Algo não está certo, Protagonista!",
-      });
-    }
+    await salvarSessao({
+      ...usuarioEncontrado,
+      id: String(usuarioEncontrado.id),
+    });
 
     setIsLoading(false);
+
+    Toast.show({
+      type: "success",
+      text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
+      text2: "Que bom ter você aqui. ✨",
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    navigation.replace("DrawerRoutes");
+  } catch {
+    setErro(true);
+    Toast.show({
+      type: "error",
+      text1: "Algo não está certo, Protagonista!",
+    });
   }
 
-  if (erro) {
-    return <ErrorMessage />;
-  }
-
+  setIsLoading(false);
+}
   return (
     <View style={estilos.container}>
       {isLoading && <Loading />}

@@ -17,6 +17,8 @@ import {
   cadastrarProfissional,
 } from "../../services/protagonizaService";
 
+import { useAuth } from "../../hook/useAuth";
+
 type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
 export const Cadastro = () => {
@@ -31,8 +33,9 @@ export const Cadastro = () => {
   const [erro, setErro] = useState(false);
 
   const navigation = useNavigation<NavigationProps>();
+  const { salvarSessao } = useAuth();
 
-  async function cadastrar() {
+async function cadastrar() {
     if (!nome || !email || !area || !cidade || !senha || !confirmarSenha) {
       Toast.show({
         type: "error",
@@ -79,7 +82,6 @@ export const Cadastro = () => {
           type: "error",
           text1: "Este e-mail já está cadastrado!",
         });
-
         setIsLoading(false);
         return;
       }
@@ -90,17 +92,24 @@ export const Cadastro = () => {
         area,
         cidade,
         senha,
+        descricao: "",
+        contato: "",
+        foto: "",
       });
+
+      setIsLoading(false);
 
       Toast.show({
         type: "success",
         text1: "Cadastro realizado com sucesso!",
+        text2: `Bem-vinda, ${nome}! ✨`,
       });
 
-      navigation.navigate("DrawerRoutes");
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      navigation.replace("Login");
     } catch {
       setErro(true);
-
       Toast.show({
         type: "error",
         text1: "Algo deu errado. Tente novamente.",
@@ -109,8 +118,6 @@ export const Cadastro = () => {
 
     setIsLoading(false);
   }
-
-  if (erro) return <ErrorMessage />;
 
   return (
     <View style={estilos.container}>
@@ -138,7 +145,7 @@ export const Cadastro = () => {
               <Form.Input
                 label="Nome"
                 icon="user"
-                placeholder="Seu nome de protagonista"
+                placeholder="Seu nome "
                 value={nome}
                 onChangeText={setNome}
               />
@@ -155,7 +162,7 @@ export const Cadastro = () => {
               <Form.Input
                 label="Área de atuação"
                 icon="briefcase"
-                placeholder="Em qual área você brilha?"
+                placeholder="Qual área você brilha?"
                 value={area}
                 onChangeText={setArea}
               />
@@ -163,7 +170,7 @@ export const Cadastro = () => {
               <Form.Input
                 label="Cidade"
                 icon="map-pin"
-                placeholder="De onde você transforma?"
+                placeholder="Onde você transforma?"
                 value={cidade}
                 onChangeText={setCidade}
               />

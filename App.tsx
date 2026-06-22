@@ -1,7 +1,8 @@
+import "react-native-reanimated";
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import {
   LibreCaslonText_400Regular,
@@ -15,6 +16,7 @@ import Toast from "react-native-toast-message";
 import { Routers } from "./src/routers/index";
 import RedeDeApoio from "./src/pages/RedeApoio";
 import { StackRoutes } from "./src/routers/stack.routes";
+import { AuthProvider } from "./src/contexts/AuthContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,26 +28,21 @@ export default function App() {
 
   if (!fontsLoaded) {
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" color="#7a1218" />
       </View>
     );
   }
 
-  return (
-    <GestureHandlerRootView>
-      <StatusBar style="auto" />
-      <StackRoutes />
-      <Toast />
-    </GestureHandlerRootView>
-  );
+ 
+   return (
+  <NavigationContainer>
+    <AuthProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <StackRoutes />
+        <Toast />
+      </GestureHandlerRootView>
+    </AuthProvider>
+  </NavigationContainer>
+);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

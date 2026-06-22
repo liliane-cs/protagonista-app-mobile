@@ -14,7 +14,7 @@ export const estilos = StyleSheet.create({
 
   header: {
     alignItems: "center",
-    paddingTop: 70,
+    paddingTop: 40,
     paddingHorizontal: 10,
     paddingBottom: 45,
   },
