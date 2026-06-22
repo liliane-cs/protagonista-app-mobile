@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.bodyBold,
     fontWeight: "700",
-    color: colors.roxo,
+    color: colors.vinhoPrincipal,
     marginBottom: 8,
   },
   cardText: {
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     letterSpacing: 0.5,
   },
   button: {
-    backgroundColor: colors.roxo,
+    backgroundColor: colors.vinhoPrincipal,
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
