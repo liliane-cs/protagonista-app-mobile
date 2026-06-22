@@ -4,6 +4,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { supabase } from "../../services/supabase";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 
 import { StackParamList } from "../../routers/navigation";
 import { estilos } from "./style";
@@ -16,6 +19,7 @@ import ErrorMessage from "../../components/Error";
 import { getProfissionais } from "../../services/protagonizaService";
 import { useAuth } from "../../hook/useAuth";
 
+WebBrowser.maybeCompleteAuthSession();
 type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
 export const Login = () => {
@@ -27,69 +31,140 @@ export const Login = () => {
   const navigation = useNavigation<NavigationProps>();
   const { salvarSessao } = useAuth();
 
+  const redirectUrl =
+    process.env.EXPO_PUBLIC_REDIRECT_URL || "exp://localhost:8081/--/login";
+
   async function fazerLogin() {
-  if (!email || !senha) {
-    Toast.show({
-      type: "error",
-      text1: "Preencha todos os campos, protagonista!",
-    });
-    return;
-  }
-
-  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!emailValido) {
-    Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
-    return;
-  }
-
-  if (senha.length < 6) {
-    Toast.show({
-      type: "error",
-      text1: "A senha deve ter no mínimo 6 caracteres!",
-    });
-    return;
-  }
-
-  setIsLoading(true);
-
-  try {
-    const profissionais = await getProfissionais();
-    const usuarioEncontrado = profissionais.find(
-      (user) => user.email === email && user.senha === senha,
-    );
-
-    if (!usuarioEncontrado) {
-      Toast.show({ type: "error", text1: "Email ou senha incorretos!" });
-      setIsLoading(false);
+    if (!email || !senha) {
+      Toast.show({
+        type: "error",
+        text1: "Preencha todos os campos, protagonista!",
+      });
       return;
     }
 
-    await salvarSessao({
-      ...usuarioEncontrado,
-      id: String(usuarioEncontrado.id),
-    });
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailValido) {
+      Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
+      return;
+    }
+
+    if (senha.length < 6) {
+      Toast.show({
+        type: "error",
+        text1: "A senha deve ter no mínimo 6 caracteres!",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const profissionais = await getProfissionais();
+      const usuarioEncontrado = profissionais.find(
+        (user) => user.email === email && user.senha === senha,
+      );
+
+      if (!usuarioEncontrado) {
+        Toast.show({ type: "error", text1: "Email ou senha incorretos!" });
+        setIsLoading(false);
+        return;
+      }
+
+      await salvarSessao({
+        ...usuarioEncontrado,
+        id: String(usuarioEncontrado.id),
+      });
+
+      setIsLoading(false);
+
+      Toast.show({
+        type: "success",
+        text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
+        text2: "Que bom ter você aqui. ✨",
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      navigation.replace("DrawerRoutes");
+    } catch {
+      setErro(true);
+      Toast.show({
+        type: "error",
+        text1: "Algo não está certo, Protagonista!",
+      });
+    }
 
     setIsLoading(false);
-
-    Toast.show({
-      type: "success",
-      text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
-      text2: "Que bom ter você aqui. ✨",
-    });
-
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    navigation.replace("DrawerRoutes");
-  } catch {
-    setErro(true);
-    Toast.show({
-      type: "error",
-      text1: "Algo não está certo, Protagonista!",
-    });
   }
 
-  setIsLoading(false);
-}
+  async function loginComGoogle() {
+    setIsLoading(true);
+
+    try {
+      const redirectTo = Linking.createURL("/");
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo,
+        },
+      });
+
+      if (error) {
+        Toast.show({
+          type: "error",
+          text1: "Erro ao iniciar login com Google!",
+        });
+        return;
+      }
+
+      const { data: session } = await supabase.auth.getSession();
+
+      if (!session?.session?.user) return;
+
+      const user = session.session.user;
+
+      await supabase.from("profissionais").upsert({
+        id: user.id,
+        nome: user.user_metadata?.full_name ?? "Usuária",
+        email: user.email,
+        foto: user.user_metadata?.picture ?? "",
+        area: "",
+        cidade: "",
+        descricao: "",
+        contato: "",
+        senha: "",
+      });
+
+      await salvarSessao({
+        id: user.id,
+        nome: user.user_metadata?.full_name ?? user.email ?? "Usuária",
+        email: user.email ?? "",
+        senha: "",
+        area: "",
+        cidade: "",
+        descricao: "",
+        contato: "",
+        foto: user.user_metadata?.picture ?? "",
+      });
+
+      Toast.show({
+        type: "success",
+        text1: `Seja bem-vinda, ${user.user_metadata?.full_name ?? "Protagonista"}!`,
+        text2: "Que bom ter você aqui. ✨",
+      });
+
+      navigation.replace("DrawerRoutes");
+    } catch {
+      Toast.show({
+        type: "error",
+        text1: "Erro no login com Google!",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }
   return (
     <View style={estilos.container}>
       {isLoading && <Loading />}
@@ -158,7 +233,7 @@ export const Login = () => {
 
           <Form.SocialButtons
             redes={[
-              { nome: "google", icone: "google" },
+              { nome: "google", icone: "google", onPress: loginComGoogle },
               { nome: "facebook", icone: "facebook" },
               { nome: "apple", icone: "apple" },
             ]}

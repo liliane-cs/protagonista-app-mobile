@@ -1,3 +1,4 @@
+import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 import { useAuth } from "../../hook/useAuth";
@@ -125,7 +126,6 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
       };
 
       await atualizarProfissional(usuario!.id, dadosAtualizados);
-
       await atualizarUsuario(dadosAtualizados);
 
       setSenha(senhaFinal);
@@ -189,6 +189,43 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
     }
   }
 
+ async function escolherFoto() {
+  Alert.alert("Foto de perfil", "Como deseja atualizar sua foto?", [
+    {
+      text: "Câmera",
+      onPress: async () => {
+        const permissao = await ImagePicker.requestCameraPermissionsAsync();
+        if (!permissao.granted) {
+          Toast.show({ type: "error", text1: "Permissão de câmera negada!" });
+          return;
+        }
+        const resultado = await ImagePicker.launchCameraAsync({
+          quality: 0.7,
+        });
+        if (!resultado.canceled) {
+          setFoto(resultado.assets[0].uri);
+        }
+      },
+    },
+    {
+      text: "Galeria",
+      onPress: async () => {
+        const permissao = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permissao.granted) {
+          Toast.show({ type: "error", text1: "Permissão de galeria negada!" });
+          return;
+        }
+        const resultado = await ImagePicker.launchImageLibraryAsync({
+          quality: 0.7,
+        });
+        if (!resultado.canceled) {
+          setFoto(resultado.assets[0].uri);
+        }
+      },
+    },
+    { text: "Cancelar", style: "cancel" },
+  ]);
+}
   if (isLoadingAuth) {
     return <Loading />;
   }
@@ -229,8 +266,15 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
                 </View>
               )}
             </View>
-            <TouchableOpacity style={estilos.alterarFotoTexto}>
+
+            <TouchableOpacity
+              style={estilos.alterarFotoTexto}
+              onPress={escolherFoto}
+            >
               <Icone name="camera" size={18} color="#fff" />
+              <Text style={{ color: "#fff", fontSize: 11, marginTop: 2 }}>
+                Alterar foto
+              </Text>
             </TouchableOpacity>
           </View>
 

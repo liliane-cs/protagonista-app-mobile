@@ -43,7 +43,7 @@ export const DrawerRoutes = () => {
     Toast.show({
       type: "success",
       text1: "Sessão encerrada",
-      text2: "Até logo 👋",
+      text2: "Até logo!",
     });
   };
   return (
@@ -52,7 +52,6 @@ export const DrawerRoutes = () => {
         title: "Protagoniza",
         headerStyle: {
           backgroundColor: colors.vinhoEscuro,
-          height: 70,
         },
         drawerActiveTintColor: colors.bege,
         drawerActiveBackgroundColor: colors.vinhoEscuro,
