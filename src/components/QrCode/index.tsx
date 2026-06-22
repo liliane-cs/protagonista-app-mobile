@@ -1,4 +1,5 @@
 import QRCode from "react-native-qrcode-svg";
+import React from "react";
 import { PropsQrCode } from "./type";
 
 export function QRCodeCard({ caminho }: PropsQrCode) {

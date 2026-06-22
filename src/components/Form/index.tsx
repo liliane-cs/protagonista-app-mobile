@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 
@@ -81,10 +81,20 @@ const Link = ({ children, onPress, align = "right" }: LinkProps) => {
   );
 };
 
-const Button = ({ children, onPress, disabled, buttonStyle, textStyle }: ButtonProps) => {
+const Button = ({
+  children,
+  onPress,
+  disabled,
+  buttonStyle,
+  textStyle,
+}: ButtonProps) => {
   return (
     <TouchableOpacity
-      style={[estilos.botao, disabled && estilos.botaoDesabilitado, buttonStyle]}
+      style={[
+        estilos.botao,
+        disabled && estilos.botaoDesabilitado,
+        buttonStyle,
+      ]}
       onPress={onPress}
       disabled={disabled}
     >
@@ -107,8 +117,12 @@ const SocialButtons = ({ redes }: SocialButtonsProps) => {
   return (
     <View style={estilos.iconesSociais}>
       {redes.map((rede) => (
-        <TouchableOpacity key={rede.nome} style={estilos.iconeSocial} onPress={rede.onPress}>
-          <FontAwesome name={rede.icone as any} size={20} color={cores.icone} />
+        <TouchableOpacity
+          key={rede.nome}
+          style={estilos.iconeSocial}
+          onPress={rede.onPress}
+        >
+          <FontAwesome name={rede.icone} size={20} color={cores.icone} />
         </TouchableOpacity>
       ))}
     </View>
