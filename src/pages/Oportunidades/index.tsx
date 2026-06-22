@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, FlatList } from "react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, TextInput, FlatList, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamList } from "../../routers/navigation";
@@ -15,31 +15,47 @@ type NavigationProp = NativeStackNavigationProp<StackParamList>;
 export const Oportunidades = () => {
   const navigation = useNavigation<NavigationProp>();
   const [busca, setBusca] = useState("");
-  const [filtroSelecionado, setFiltroSelecionado] = useState("Todas");
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const data = await getOportunidade();
+      setOportunidades(data);
+      setErro(null);
+    } catch (err) {
+      console.error("Erro ao carregar oportunidades", err);
+      setErro("Não foi possível carregar as oportunidades.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getOportunidade();
-        setOportunidades(data);
-      } catch (err) {
-        console.error("Erro ao carregar oportunidades", err);
-        setErro("Não foi possível carregar as oportunidades.");
-      } finally {
-        setLoading(false);
-      }
-    }
     fetchData();
   }, []);
 
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchData();
+  }, []);
+
+  // Apenas busca por título
   const filtradas = oportunidades.filter((item) => {
-    const matchBusca = item.titulo.toLowerCase().includes(busca.toLowerCase());
-    const matchFiltro =
-      filtroSelecionado === "Todas" || item.tipo === filtroSelecionado;
-    return matchBusca && matchFiltro;
+    const tituloNormalizado = item.titulo
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    const buscaNormalizada = busca
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    return tituloNormalizado.includes(buscaNormalizada);
   });
 
   if (loading) return <Loading mensagem="Carregando oportunidades..." />;
@@ -56,22 +72,6 @@ export const Oportunidades = () => {
         onChangeText={setBusca}
       />
 
-      {/* Barra de filtros */}
-      <View style={styles.filterBar}>
-        {["Todas", "Freelance", "CLT", "MEI", "Voluntário"].map((filtro) => (
-          <Text
-            key={filtro}
-            style={[
-              styles.filterText,
-              filtroSelecionado === filtro && styles.filterTextAtivo,
-            ]}
-            onPress={() => setFiltroSelecionado(filtro)}
-          >
-            {filtro}
-          </Text>
-        ))}
-      </View>
-
       {filtradas.length > 0 ? (
         <FlatList
           data={filtradas}
@@ -84,12 +84,13 @@ export const Oportunidades = () => {
               favoritado={false}
               aoFavoritar={() => console.log("Favoritar", item.id)}
               onPress={() =>
-                navigation.navigate("OportunidadeDetalhe", {
-                  id: String(item.id),
-                })
+                navigation.navigate("OportunidadeDetalhe", { id: String(item.id) })
               }
             />
           )}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         />
       ) : (
         <Text style={styles.empty}>Nenhuma oportunidade encontrada.</Text>

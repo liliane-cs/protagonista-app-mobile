@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { colors, fonts } from "../styles/theme";
-import { uppercase } from "zod";
 
 export const styles = StyleSheet.create({
   tabBar: {

@@ -4,7 +4,6 @@ import { styles } from "./styles";
 import { TabParamList } from "./navigation";
 
 import { Home } from "../pages/Home";
-// import { Oportunidades } from "../pages/Oportunidades";
 // import { Cursos } from "../pages/Cursos";
 import RedeDeApoio from "../pages/RedeApoio";
 import { View } from "react-native";

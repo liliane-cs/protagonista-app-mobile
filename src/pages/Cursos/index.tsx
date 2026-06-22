@@ -27,9 +27,11 @@ export default function Cursos() {
     async function carregarCursos() {
       try {
         const dados = await getCurso();
+
         setCursos(dados);
       } catch {
         setErro(true);
+
         Toast.show({
           type: "error",
           text1: "Não foi possível carregar os cursos.",
@@ -97,6 +99,7 @@ export default function Cursos() {
             onValueChange={(value) => setAreaSelecionada(value)}
           >
             <Picker.Item label="Todas as áreas" value="" />
+
             {areas.map((area) => (
               <Picker.Item key={area} label={area} value={area} />
             ))}
