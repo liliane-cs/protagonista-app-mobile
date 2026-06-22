@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
-import { Alert } from "react-native";
+import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { useAuth } from "../../hook/useAuth";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
 import Toast from "react-native-toast-message";
@@ -189,43 +189,44 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
     }
   }
 
- async function escolherFoto() {
-  Alert.alert("Foto de perfil", "Como deseja atualizar sua foto?", [
-    {
-      text: "Câmera",
-      onPress: async () => {
-        const permissao = await ImagePicker.requestCameraPermissionsAsync();
-        if (!permissao.granted) {
-          Toast.show({ type: "error", text1: "Permissão de câmera negada!" });
-          return;
-        }
-        const resultado = await ImagePicker.launchCameraAsync({
-          quality: 0.7,
-        });
-        if (!resultado.canceled) {
-          setFoto(resultado.assets[0].uri);
-        }
+  async function escolherFoto() {
+    Alert.alert("Foto de perfil", "Como deseja atualizar sua foto?", [
+      {
+        text: "Câmera",
+        onPress: async () => {
+          const permissao = await ImagePicker.requestCameraPermissionsAsync();
+          if (!permissao.granted) {
+            Toast.show({ type: "error", text1: "Permissão de câmera negada!" });
+            return;
+          }
+          const resultado = await ImagePicker.launchCameraAsync({
+            quality: 0.7,
+          });
+          if (!resultado.canceled) {
+            setFoto(resultado.assets[0].uri);
+          }
+        },
       },
-    },
-    {
-      text: "Galeria",
-      onPress: async () => {
-        const permissao = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (!permissao.granted) {
-          Toast.show({ type: "error", text1: "Permissão de galeria negada!" });
-          return;
-        }
-        const resultado = await ImagePicker.launchImageLibraryAsync({
-          quality: 0.7,
-        });
-        if (!resultado.canceled) {
-          setFoto(resultado.assets[0].uri);
-        }
+      {
+        text: "Galeria",
+        onPress: async () => {
+          const permissao = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          if (!permissao.granted) {
+            Toast.show({ type: "error", text1: "Permissão de galeria negada!" });
+            return;
+          }
+          const resultado = await ImagePicker.launchImageLibraryAsync({
+            quality: 0.7,
+          });
+          if (!resultado.canceled) {
+            setFoto(resultado.assets[0].uri);
+          }
+        },
       },
-    },
-    { text: "Cancelar", style: "cancel" },
-  ]);
-}
+      { text: "Cancelar", style: "cancel" },
+    ]);
+  }
+
   if (isLoadingAuth) {
     return <Loading />;
   }
@@ -247,173 +248,180 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
           <View style={{ width: 22 }} />
         </View>
 
-        <ScrollView
-          contentContainerStyle={estilos.scroll}
-          showsVerticalScrollIndicator={false}
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 20}
         >
-          <View style={estilos.editFotoWrapper}>
-            <View style={estilos.editFotoCirculo}>
-              {foto ? (
-                <Image source={{ uri: foto }} style={estilos.editFoto} />
-              ) : (
-                <View
-                  style={[
-                    estilos.editFoto,
-                    { alignItems: "center", justifyContent: "center" },
-                  ]}
-                >
-                  <Icone name="user" size={36} color="#B07080" />
-                </View>
-              )}
-            </View>
+          <ScrollView
+            contentContainerStyle={estilos.scroll}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+          >
+            <View style={estilos.editFotoWrapper}>
+              <View style={estilos.editFotoCirculo}>
+                {foto ? (
+                  <Image source={{ uri: foto }} style={estilos.editFoto} />
+                ) : (
+                  <View
+                    style={[
+                      estilos.editFoto,
+                      { alignItems: "center", justifyContent: "center" },
+                    ]}
+                  >
+                    <Icone name="user" size={36} color="#B07080" />
+                  </View>
+                )}
+              </View>
 
-            <TouchableOpacity
-              style={estilos.alterarFotoTexto}
-              onPress={escolherFoto}
-            >
-              <Icone name="camera" size={18} color="#fff" />
-              <Text style={{ color: "#fff", fontSize: 11, marginTop: 2 }}>
-                Alterar foto
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={estilos.camposWrapper}>
-            <Form.Input
-              label="Descrição"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="edit-2"
-              placeholder="Sua descrição"
-              value={descricao}
-              onChangeText={setDescricao}
-            />
-            <Form.Input
-              label="E-mail"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="mail"
-              placeholder="E-mail"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-            />
-            <Form.Input
-              label="Nome completo"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="user"
-              placeholder="Nome completo"
-              value={nome}
-              onChangeText={setNome}
-            />
-            <Form.Input
-              label="Contato"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="phone"
-              placeholder="Contato"
-              value={contato}
-              onChangeText={setContato}
-            />
-            <Form.Input
-              label="Foto (link)"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="image"
-              placeholder="Cole o link da sua foto"
-              value={foto}
-              onChangeText={setFoto}
-            />
-            <Form.Input
-              label="Área de atuação"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="briefcase"
-              placeholder="Área de atuação"
-              value={area}
-              onChangeText={setArea}
-            />
-            <Form.Input
-              label="Cidade"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="map-pin"
-              placeholder="Cidade"
-              value={cidade}
-              onChangeText={setCidade}
-            />
-            <Form.Input
-              label="Senha atual"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="lock"
-              placeholder="Digite sua senha atual"
-              value={senhaAtual}
-              onChangeText={setSenhaAtual}
-              isPassword
-            />
-            <Form.Input
-              label="Nova senha"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="lock"
-              placeholder="Crie uma nova senha"
-              value={novaSenha}
-              onChangeText={setNovaSenha}
-              isPassword
-            />
-            <Form.Input
-              label="Confirmar nova senha"
-              labelColor={estilos.editLabel.color}
-              inputStyle={estilos.editInput}
-              icon="lock"
-              placeholder="Repita sua nova senha"
-              value={confirmarNovaSenha}
-              onChangeText={setConfirmarNovaSenha}
-              isPassword
-            />
-          </View>
-
-          <View style={{ marginHorizontal: 20, marginTop: 24 }}>
-            <Form.Button
-              onPress={salvar}
-              disabled={isLoading}
-              buttonStyle={estilos.editBotaoSalvar}
-              textStyle={estilos.editBotaoSalvarTexto}
-            >
-              Atualizar meu protagonismo
-            </Form.Button>
-
-            {!confirmarDelete ? (
               <TouchableOpacity
-                style={estilos.botaoExcluir}
-                onPress={() => setConfirmarDelete(true)}
+                style={estilos.alterarFotoTexto}
+                onPress={escolherFoto}
               >
-                <Text style={estilos.botaoExcluirTexto}>
-                  Quero sair dos holofotes
+                <Icone name="camera" size={18} color="#fff" />
+                <Text style={{ color: "#fff", fontSize: 11, marginTop: 2 }}>
+                  Alterar foto
                 </Text>
               </TouchableOpacity>
-            ) : (
-              <>
-                <Text style={[estilos.editSubtitulo, { marginLeft: 0 }]}>
-                  Não deixe seu protagonismo! Fique por aqui.
-                </Text>
+            </View>
+
+            <View style={estilos.camposWrapper}>
+              <Form.Input
+                label="Descrição"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="edit-2"
+                placeholder="Sua descrição"
+                value={descricao}
+                onChangeText={setDescricao}
+              />
+              <Form.Input
+                label="E-mail"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="mail"
+                placeholder="E-mail"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
+              <Form.Input
+                label="Nome completo"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="user"
+                placeholder="Nome completo"
+                value={nome}
+                onChangeText={setNome}
+              />
+              <Form.Input
+                label="Contato"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="phone"
+                placeholder="Contato"
+                value={contato}
+                onChangeText={setContato}
+              />
+              <Form.Input
+                label="Foto (link)"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="image"
+                placeholder="Cole o link da sua foto"
+                value={foto}
+                onChangeText={setFoto}
+              />
+              <Form.Input
+                label="Área de atuação"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="briefcase"
+                placeholder="Área de atuação"
+                value={area}
+                onChangeText={setArea}
+              />
+              <Form.Input
+                label="Cidade"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="map-pin"
+                placeholder="Cidade"
+                value={cidade}
+                onChangeText={setCidade}
+              />
+              <Form.Input
+                label="Senha atual"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="lock"
+                placeholder="Digite sua senha atual"
+                value={senhaAtual}
+                onChangeText={setSenhaAtual}
+                isPassword
+              />
+              <Form.Input
+                label="Nova senha"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="lock"
+                placeholder="Crie uma nova senha"
+                value={novaSenha}
+                onChangeText={setNovaSenha}
+                isPassword
+              />
+              <Form.Input
+                label="Confirmar nova senha"
+                labelColor={estilos.editLabel.color}
+                inputStyle={estilos.editInput}
+                icon="lock"
+                placeholder="Repita sua nova senha"
+                value={confirmarNovaSenha}
+                onChangeText={setConfirmarNovaSenha}
+                isPassword
+              />
+            </View>
+
+            <View style={{ marginHorizontal: 20, marginTop: 24 }}>
+              <Form.Button
+                onPress={salvar}
+                disabled={isLoading}
+                buttonStyle={estilos.editBotaoSalvar}
+                textStyle={estilos.editBotaoSalvarTexto}
+              >
+                Atualizar meu protagonismo
+              </Form.Button>
+
+              {!confirmarDelete ? (
                 <TouchableOpacity
                   style={estilos.botaoExcluir}
-                  onPress={confirmarDelecao}
+                  onPress={() => setConfirmarDelete(true)}
                 >
                   <Text style={estilos.botaoExcluirTexto}>
-                    Sim, quero sair dos holofotes
+                    Quero sair dos holofotes
                   </Text>
                 </TouchableOpacity>
-                <Form.Button onPress={() => setConfirmarDelete(false)}>
-                  Não! Continuo aqui
-                </Form.Button>
-              </>
-            )}
-          </View>
-        </ScrollView>
+              ) : (
+                <>
+                  <Text style={[estilos.editSubtitulo, { marginLeft: 0 }]}>
+                    Não deixe seu protagonismo! Fique por aqui.
+                  </Text>
+                  <TouchableOpacity
+                    style={estilos.botaoExcluir}
+                    onPress={confirmarDelecao}
+                  >
+                    <Text style={estilos.botaoExcluirTexto}>
+                      Sim, quero sair dos holofotes
+                    </Text>
+                  </TouchableOpacity>
+                  <Form.Button onPress={() => setConfirmarDelete(false)}>
+                    Não! Continuo aqui
+                  </Form.Button>
+                </>
+              )}
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
 
         <Toast />
       </View>

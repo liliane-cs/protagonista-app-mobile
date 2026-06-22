@@ -17,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import Toast from "react-native-toast-message";
+
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 function PlaceholderScreen() {
@@ -46,6 +47,7 @@ export const DrawerRoutes = () => {
       text2: "Até logo!",
     });
   };
+
   return (
     <Drawer.Navigator
       screenOptions={() => ({
@@ -55,7 +57,6 @@ export const DrawerRoutes = () => {
         },
         drawerActiveTintColor: colors.bege,
         drawerActiveBackgroundColor: colors.vinhoEscuro,
-
         drawerInactiveTintColor: colors.vinhoEscuro,
         drawerPosition: "right",
         headerTitleStyle: {
@@ -114,23 +115,23 @@ export const DrawerRoutes = () => {
         }}
       />
 
-      {usuario ? (
-        <Drawer.Screen
-          name="MeuPerfil"
-          component={MeuPerfil}
-          options={{
-            drawerLabel: "Meu Perfil",
-          }}
-        />
-      ) : (
-        <Drawer.Screen
-          name="Login"
-          component={Login}
-          options={{
-            drawerLabel: "Fazer Login",
-          }}
-        />
-      )}
+      <Drawer.Screen
+        name="MeuPerfil"
+        component={MeuPerfil}
+        options={{
+          drawerLabel: "Meu Perfil",
+          drawerItemStyle: !usuario ? { display: "none" } : undefined,
+        }}
+      />
+
+      <Drawer.Screen
+        name="Login"
+        component={Login}
+        options={{
+          drawerLabel: "Fazer Login",
+          drawerItemStyle: usuario ? { display: "none" } : undefined,
+        }}
+      />
     </Drawer.Navigator>
   );
 };
