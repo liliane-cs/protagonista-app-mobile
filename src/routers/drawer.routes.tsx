@@ -20,23 +20,9 @@ import { Home } from "../pages/Home";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import Favoritos from "../pages/Favoritos";
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
-
-function PlaceholderScreen() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Tela em construção</Text>
-    </View>
-  );
-}
-
 export const DrawerRoutes = () => {
   const { usuario, removerSessao } = useAuth();
   const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>();
@@ -113,7 +99,7 @@ export const DrawerRoutes = () => {
 
       <Drawer.Screen
         name="Favoritos"
-        component={PlaceholderScreen}
+        component={Favoritos}
         options={{
           drawerLabel: "Favoritos",
         }}

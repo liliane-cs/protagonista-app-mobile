@@ -77,21 +77,11 @@ export const TabsRoutes = () => {
       <Tab.Screen
         name="Cursos"
         component={Cursos}
-        
         options={{
           tabBarIcon: ({ focused }) => renderIcon("book-outline", focused),
           tabBarLabel: "",
         }}
       />
-      <Tab.Screen
-      name="Favoritos"
-      component={Favoritos}
-       options={{
-       tabBarIcon: ({ focused }) =>
-      renderIcon("heart-outline", focused),
-       tabBarLabel: "",
-       }}
-        />
 
       <Tab.Screen
         name="Apoio"
