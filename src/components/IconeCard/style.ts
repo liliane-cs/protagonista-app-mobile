@@ -6,14 +6,14 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 10,
-    width: 80,
+    width: 75,
   },
 
   label: {
     fontFamily: fonts.body,
     marginTop: 6,
-    fontSize: 10,
-    color: colors.textoSecundario,
+    fontSize: 9.5,
+    color: colors.texto,
   },
 
   overlay: {

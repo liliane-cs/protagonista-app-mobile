@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.fundoPrincipal,
     padding: 16,
+    marginTop: 40,
   },
   title: {
     fontSize: 22,
