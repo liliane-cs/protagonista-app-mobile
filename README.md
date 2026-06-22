@@ -183,8 +183,3 @@ Projeto desenvolvido em grupo.
  
 Feito com 💜 para empoderar mulheres.
  
-
-
----
-
-Feito com 💜 para empoderar mulheres.
