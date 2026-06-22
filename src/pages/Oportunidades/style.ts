@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.title,
     marginBottom: 12,
     color: colors.titulo,
+    textTransform: "uppercase",
   },
   searchInput: {
     borderWidth: 1,

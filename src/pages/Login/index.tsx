@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { supabase } from "../../services/supabase";
+import * as WebBrowser from "expo-web-browser";
 
 import { StackParamList } from "../../routers/navigation";
 import { estilos } from "./style";
@@ -16,6 +18,7 @@ import ErrorMessage from "../../components/Error";
 import { getProfissionais } from "../../services/protagonizaService";
 import { useAuth } from "../../hook/useAuth";
 
+WebBrowser.maybeCompleteAuthSession();
 type NavigationProps = NativeStackNavigationProp<StackParamList>;
 
 export const Login = () => {
@@ -28,64 +31,140 @@ export const Login = () => {
   const { salvarSessao } = useAuth();
 
   async function fazerLogin() {
-  if (!email || !senha) {
-    Toast.show({
-      type: "error",
-      text1: "Preencha todos os campos, protagonista!",
-    });
-    return;
-  }
+    if (!email || !senha) {
+      Toast.show({
+        type: "error",
+        text1: "Preencha todos os campos, protagonista!",
+      });
+      return;
+    }
 
-  const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  if (!emailValido) {
-    Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
-    return;
-  }
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailValido) {
+      Toast.show({ type: "error", text1: "Digite um e-mail válido!" });
+      return;
+    }
 
-  if (senha.length < 6) {
-    Toast.show({
-      type: "error",
-      text1: "A senha deve ter no mínimo 6 caracteres!",
-    });
-    return;
-  }
+    if (senha.length < 6) {
+      Toast.show({
+        type: "error",
+        text1: "A senha deve ter no mínimo 6 caracteres!",
+      });
+      return;
+    }
 
+    setIsLoading(true);
+
+    try {
+      const profissionais = await getProfissionais();
+      const usuarioEncontrado = profissionais.find(
+        (user) => user.email === email && user.senha === senha,
+      );
+
+      if (!usuarioEncontrado) {
+        Toast.show({ type: "error", text1: "Email ou senha incorretos!" });
+        setIsLoading(false);
+        return;
+      }
+
+      await salvarSessao({
+        ...usuarioEncontrado,
+        id: String(usuarioEncontrado.id),
+      });
+
+      setIsLoading(false);
+
+      Toast.show({
+        type: "success",
+        text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
+        text2: "Que bom ter você aqui. ✨",
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      navigation.replace("DrawerRoutes");
+    } catch {
+      setErro(true);
+      Toast.show({
+        type: "error",
+        text1: "Algo não está certo, Protagonista!",
+      });
+    }
+
+    setIsLoading(false);
+  }
+  async function loginComGoogle() {
   setIsLoading(true);
 
   try {
-    const profissionais = await getProfissionais();
-    const usuarioEncontrado = profissionais.find(
-      (user) => user.email === email && user.senha === senha,
-    );
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: "exp://192.168.10.6:8081/--/login",
+        skipBrowserRedirect: true,
+      },
+    });
 
-    if (!usuarioEncontrado) {
-      Toast.show({ type: "error", text1: "Email ou senha incorretos!" });
+    if (error || !data.url) {
+      Toast.show({ type: "error", text1: "Erro ao entrar com Google!" });
       setIsLoading(false);
       return;
     }
 
-    await salvarSessao({
-      ...usuarioEncontrado,
-      id: String(usuarioEncontrado.id),
-    });
+    const result = await WebBrowser.openAuthSessionAsync(
+      data.url,
+      "exp://192.168.10.6:8081/--/login",
+    );
 
-    setIsLoading(false);
+    if (result.type === "success") {
+      const url = result.url;
+      const params = new URLSearchParams(url.split("#")[1]);
+      const accessToken = params.get("access_token");
+      const refreshToken = params.get("refresh_token");
 
-    Toast.show({
-      type: "success",
-      text1: `Seja bem-vinda, ${usuarioEncontrado.nome}!`,
-      text2: "Que bom ter você aqui. ✨",
-    });
+      if (!accessToken || !refreshToken) {
+        Toast.show({ type: "error", text1: "Erro ao obter tokens!" });
+        setIsLoading(false);
+        return;
+      }
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { data: sessionData, error: sessionError } =
+        await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
 
-    navigation.replace("DrawerRoutes");
-  } catch {
-    setErro(true);
-    Toast.show({
-      type: "error",
-      text1: "Algo não está certo, Protagonista!",
-    });
+      if (sessionError || !sessionData.user) {
+        Toast.show({ type: "error", text1: "Erro ao criar sessão!" });
+        setIsLoading(false);
+        return;
+      }
+
+      const user = sessionData.user;
+
+      await salvarSessao({
+        id: user.id,
+        nome: user.user_metadata?.full_name ?? user.email ?? "Usuária",
+        email: user.email ?? "",
+        senha: "",
+        area: user.user_metadata?.area ?? "",
+        cidade: user.user_metadata?.cidade ?? "",
+        descricao: user.user_metadata?.descricao ?? "",
+        contato: user.user_metadata?.contato ?? "",
+        foto: user.user_metadata?.picture ?? "",
+      });
+
+      Toast.show({
+        type: "success",
+        text1: `Seja bem-vinda, ${user.user_metadata?.full_name ?? "Protagonista"}!`,
+        text2: "Que bom ter você aqui. ✨",
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      navigation.replace("DrawerRoutes");
+    }
+ } catch {
+    Toast.show({ type: "error", text1: "Algo deu errado!" });
   }
 
   setIsLoading(false);
@@ -158,7 +237,7 @@ export const Login = () => {
 
           <Form.SocialButtons
             redes={[
-              { nome: "google", icone: "google" },
+              { nome: "google", icone: "google", onPress: loginComGoogle },
               { nome: "facebook", icone: "facebook" },
               { nome: "apple", icone: "apple" },
             ]}
