@@ -1,3 +1,4 @@
+import { FavoritesContext } from "../../contexts/FavoritesContext";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Animated, View, Text, FlatList } from "react-native";
 import { Picker } from "@react-native-picker/picker";
@@ -10,9 +11,11 @@ import { styles } from "./style";
 import Toast from "react-native-toast-message";
 import { Curso } from "../../types/cursos";
 import { getCurso } from "../../services/protagonizaService";
-//import { FavoritosContext } from "../../context/FavoritosContext";
+
 
 export default function Cursos() {
+  const { adicionarFavorito, estaFavoritado } =
+  useContext(FavoritesContext);
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(false);
@@ -20,8 +23,8 @@ export default function Cursos() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const translateAnim = useRef(new Animated.Value(-30)).current;
 
-  //const { adicionarFavorito, estaFavoritado } =
-  //useContext(FavoritosContext);
+
+
 
   useEffect(() => {
     async function carregarCursos() {
@@ -120,10 +123,20 @@ export default function Cursos() {
           contentContainerStyle={styles.lista}
           renderItem={({ item }) => (
             <Card
-              titulo={item.titulo}
-              descricao={item.area}
-              imagem={item.imagem}
-            />
+  titulo={item.titulo}
+  descricao={item.area}
+  imagem={item.imagem}
+  favoritado={estaFavoritado(`curso-${item.id}`)}
+  aoFavoritar={() =>
+    adicionarFavorito({
+      id: `curso-${item.id}`,
+      titulo: item.titulo,
+      descricao: item.area,
+      imagem: item.imagem ?? "",
+      tipo: "curso",
+    })
+  }
+/>
           )}
         />
       </Animated.View>

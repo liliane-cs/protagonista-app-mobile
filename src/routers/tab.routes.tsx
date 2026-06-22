@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { styles } from "./styles";
 import { TabParamList } from "./navigation";
+import Favoritos from "../pages/Favoritos";
 
 import { Home } from "../pages/Home";
 // import { Cursos } from "../pages/Cursos";
@@ -82,6 +83,16 @@ export const TabsRoutes = () => {
           tabBarLabel: "",
         }}
       />
+      <Tab.Screen
+      name="Favoritos"
+      component={Favoritos}
+       options={{
+       tabBarIcon: ({ focused }) =>
+      renderIcon("heart-outline", focused),
+       tabBarLabel: "",
+       }}
+        />
+
       <Tab.Screen
         name="Apoio"
         component={RedeDeApoio}

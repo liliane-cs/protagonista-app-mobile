@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import { View, Text, TextInput, FlatList, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -9,11 +9,14 @@ import { styles } from "./style";
 import { Card } from "../../components/Card";
 import Loading from "../../components/Loading";
 import ErrorMessage from "../../components/Error";
+import { FavoritesContext } from "../../contexts/FavoritesContext";
 
 type NavigationProp = NativeStackNavigationProp<StackParamList>;
 
 export const Oportunidades = () => {
   const navigation = useNavigation<NavigationProp>();
+  const { adicionarFavorito, estaFavoritado } = useContext(FavoritesContext);
+
   const [busca, setBusca] = useState("");
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +46,6 @@ export const Oportunidades = () => {
     fetchData();
   }, []);
 
-  // Apenas busca por título
   const filtradas = oportunidades.filter((item) => {
     const tituloNormalizado = item.titulo
       .normalize("NFD")
@@ -76,18 +78,32 @@ export const Oportunidades = () => {
         <FlatList
           data={filtradas}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <Card
-              titulo={item.titulo}
-              descricao={item.descricao}
-              imagem={item.imagem}
-              favoritado={false}
-              aoFavoritar={() => console.log("Favoritar", item.id)}
-              onPress={() =>
-                navigation.navigate("OportunidadeDetalhe", { id: String(item.id) })
-              }
-            />
-          )}
+          renderItem={({ item }) => {
+            const idFavorito = `oportunidade-${item.id}`;
+
+            return (
+              <Card
+                titulo={item.titulo}
+                descricao={item.descricao}
+                imagem={item.imagem}
+                favoritado={estaFavoritado(idFavorito)}
+                aoFavoritar={() =>
+                  adicionarFavorito({
+                    id: idFavorito,
+                    titulo: item.titulo,
+                    descricao: item.descricao,
+                    imagem: item.imagem ?? "",
+                    tipo: "oportunidade",
+                  })
+                }
+                onPress={() =>
+                  navigation.navigate("OportunidadeDetalhe", {
+                    id: String(item.id),
+                  })
+                }
+              />
+            );
+          }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }

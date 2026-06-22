@@ -6,6 +6,7 @@ export type TabParamList = {
   Cursos: undefined;
   Apoio: undefined;
   Profissionais: undefined;
+  Favoritos: undefined;
 };
 
 export type DrawerParamList = {

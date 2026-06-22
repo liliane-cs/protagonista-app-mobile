@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import React, { createContext, ReactNode, useEffect, useState } from "react";
 import {
   buscarDadosStorage,
   FAVORITOS_KEY,
@@ -15,7 +15,7 @@ export interface Favorito {
   tipo: TipoFavorito;
 }
 
-interface FavoritosContextData {
+interface FavoritesContextData {
   favoritos: Favorito[];
   carregandoFavoritos: boolean;
   adicionarFavorito: (favorito: Favorito) => Promise<void>;
@@ -23,13 +23,13 @@ interface FavoritosContextData {
   estaFavoritado: (id: string) => boolean;
 }
 
-interface FavoritosProviderProps {
+interface FavoritesProviderProps {
   children: ReactNode;
 }
 
-export const FavoritosContext = createContext({} as FavoritosContextData);
+export const FavoritesContext = createContext({} as FavoritesContextData);
 
-export function FavoritosProvider({ children }: FavoritosProviderProps) {
+export function FavoritosProvider({ children }: FavoritesProviderProps) {
   const [favoritos, setFavoritos] = useState<Favorito[]>([]);
   const [carregandoFavoritos, setCarregandoFavoritos] = useState(true);
 
@@ -65,8 +65,7 @@ export function FavoritosProvider({ children }: FavoritosProviderProps) {
       return;
     }
 
-    const novosFavoritos = [...favoritos, favorito];
-    await salvarFavoritos(novosFavoritos);
+    await salvarFavoritos([...favoritos, favorito]);
   }
 
   async function removerFavorito(id: string) {
@@ -83,7 +82,7 @@ export function FavoritosProvider({ children }: FavoritosProviderProps) {
   }, []);
 
   return (
-    <FavoritosContext.Provider
+    <FavoritesContext.Provider
       value={{
         favoritos,
         carregandoFavoritos,
@@ -93,6 +92,6 @@ export function FavoritosProvider({ children }: FavoritosProviderProps) {
       }}
     >
       {children}
-    </FavoritosContext.Provider>
+    </FavoritesContext.Provider>
   );
 }
