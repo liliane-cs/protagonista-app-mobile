@@ -45,7 +45,7 @@ export const TelaInicio = ({ navigation }: Props) => {
 
         <TouchableOpacity
           style={styles.secondaryButton}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("DrawerRoutes")}
         >
           <Text style={styles.secondaryText}>Continuar como visitante</Text>
         </TouchableOpacity>

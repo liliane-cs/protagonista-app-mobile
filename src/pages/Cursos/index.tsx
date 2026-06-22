@@ -19,37 +19,35 @@ export default function Cursos() {
   const [areaSelecionada, setAreaSelecionada] = useState("");
 
   //const { adicionarFavorito, estaFavoritado } =
-    //useContext(FavoritosContext);
+  //useContext(FavoritosContext);
 
   useEffect(() => {
-  async function carregarCursos() {
-    try {
-      const dados = await getCurso();
+    async function carregarCursos() {
+      try {
+        const dados = await getCurso();
 
-      setCursos(dados);
-    } catch {
-      setErro(true);
+        setCursos(dados);
+      } catch {
+        setErro(true);
 
-      Toast.show({
-        type: "error",
-        text1: "Não foi possível carregar os cursos.",
-      });
-    } finally {
-      setTimeout(() => {
-        setCarregando(false);
-      }, 1500);
+        Toast.show({
+          type: "error",
+          text1: "Não foi possível carregar os cursos.",
+        });
+      } finally {
+        setTimeout(() => {
+          setCarregando(false);
+        }, 1500);
+      }
     }
-  }
 
-  carregarCursos();
-}, []);
+    carregarCursos();
+  }, []);
 
   if (carregando) return <Loading />;
 
   if (erro)
-    return (
-      <ErrorMessage mensagem="Não foi possível carregar os cursos." />
-    );
+    return <ErrorMessage mensagem="Não foi possível carregar os cursos." />;
 
   const areas = [...new Set(cursos.map((curso) => curso.area))];
 
@@ -60,28 +58,17 @@ export default function Cursos() {
   return (
     <View style={styles.container}>
       <View style={styles.cabecalho}>
-        <Text style={styles.titulo}>
-          Cursos Profissionalizantes
-        </Text>
+        <Text style={styles.titulo}>Cursos Profissionalizantes</Text>
 
         <View style={styles.filtroContainer}>
           <Picker
             selectedValue={areaSelecionada}
-            onValueChange={(value) =>
-              setAreaSelecionada(value)
-            }
+            onValueChange={(value) => setAreaSelecionada(value)}
           >
-            <Picker.Item
-              label="Todas as áreas"
-              value=""
-            />
+            <Picker.Item label="Todas as áreas" value="" />
 
             {areas.map((area) => (
-              <Picker.Item
-                key={area}
-                label={area}
-                value={area}
-              />
+              <Picker.Item key={area} label={area} value={area} />
             ))}
           </Picker>
         </View>
@@ -100,10 +87,10 @@ export default function Cursos() {
             imagem={item.imagem}
             //favoritado={estaFavoritado(item.id, "curso")}
             //aoFavoritar={() =>
-              //adicionarFavorito({
-              //  ...item,
-               // tipo: "curso",
-             // })
+            //adicionarFavorito({
+            //  ...item,
+            // tipo: "curso",
+            // })
             //}
           />
         )}
