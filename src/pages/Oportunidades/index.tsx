@@ -15,7 +15,6 @@ type NavigationProp = NativeStackNavigationProp<StackParamList>;
 export const Oportunidades = () => {
   const navigation = useNavigation<NavigationProp>();
   const [busca, setBusca] = useState("");
-  const [filtroSelecionado, setFiltroSelecionado] = useState("Todas");
   const [oportunidades, setOportunidades] = useState<Oportunidade[]>([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
@@ -44,11 +43,19 @@ export const Oportunidades = () => {
     fetchData();
   }, []);
 
+  // Apenas busca por título
   const filtradas = oportunidades.filter((item) => {
-    const matchBusca = item.titulo.toLowerCase().includes(busca.toLowerCase());
-    const matchFiltro =
-      filtroSelecionado === "Todas" || item.tipo === filtroSelecionado;
-    return matchBusca && matchFiltro;
+    const tituloNormalizado = item.titulo
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    const buscaNormalizada = busca
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    return tituloNormalizado.includes(buscaNormalizada);
   });
 
   if (loading) return <Loading mensagem="Carregando oportunidades..." />;
@@ -64,21 +71,6 @@ export const Oportunidades = () => {
         value={busca}
         onChangeText={setBusca}
       />
-
-      <View style={styles.filterBar}>
-        {["Todas", "Freelance", "CLT", "MEI", "Voluntário"].map((filtro) => (
-          <Text
-            key={filtro}
-            style={[
-              styles.filterText,
-              filtroSelecionado === filtro && styles.filterTextAtivo,
-            ]}
-            onPress={() => setFiltroSelecionado(filtro)}
-          >
-            {filtro}
-          </Text>
-        ))}
-      </View>
 
       {filtradas.length > 0 ? (
         <FlatList

@@ -12,7 +12,21 @@ import { useRoute } from "@react-navigation/native";
 import { getOportunidadeById } from "../../services/protagonizaService";
 import { Oportunidade } from "../../types/oportunidades";
 import { styles } from "./style";
+import * as WebBrowser from "expo-web-browser";
 import * as AuthSession from "expo-auth-session";
+
+function parseUrlParams(url: string) {
+  const params: Record<string, string> = {};
+  const queryString = url.split("#")[1]; 
+  if (queryString) {
+    const pairs = queryString.split("&");
+    pairs.forEach((pair) => {
+      const [key, value] = pair.split("=");
+      params[key] = decodeURIComponent(value);
+    });
+  }
+  return params;
+}
 
 export const DetalheOportunidade = () => {
   const route = useRoute();
@@ -35,7 +49,6 @@ export const DetalheOportunidade = () => {
     fetchData();
   }, [id]);
 
-  // Compartilhar oportunidade
   const compartilhar = async () => {
     if (!oportunidade) return;
     try {
@@ -50,7 +63,6 @@ export const DetalheOportunidade = () => {
     }
   };
 
-  // Adicionar ao Google Calendar
   const adicionarAoCalendario = async () => {
     if (!oportunidade) return;
 
@@ -58,42 +70,47 @@ export const DetalheOportunidade = () => {
       const redirectUri = AuthSession.makeRedirectUri({ scheme: "protagoniza" });
       console.log("Redirect URI gerado:", redirectUri);
 
-      const result = await AuthSession.startAsync({
-        authUrl:
-          `https://accounts.google.com/o/oauth2/v2/auth?response_type=token` +
-          `&client_id=982215938880-gsk9qvfg5thf7e53co1ic25g4lmpc70u.apps.googleusercontent.com` + 
-          `&redirect_uri=https://auth.expo.io/d4vila/protagoniza` +
-          `&scope=https://www.googleapis.com/auth/calendar.events`,
-      });
+      const authUrl =
+        `https://accounts.google.com/o/oauth2/v2/auth?response_type=token` +
+        `&client_id=982215938880-gsk9qvfg5thf7e53co1ic25g4lmpc70u` +
+        `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+        `&scope=https://www.googleapis.com/auth/calendar.events`;
 
-      if (result.type === "success" && result.params.access_token) {
-        const accessToken = result.params.access_token;
+      const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
 
-        const startDate = new Date().toISOString();
-        const endDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
+      if (result.type === "success" && result.url) {
+        const params = parseUrlParams(result.url);
+        const accessToken = params["access_token"];
 
-        const response = await fetch(
-          "https://www.googleapis.com/calendar/v3/calendars/primary/events",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              summary: oportunidade.titulo,
-              description: oportunidade.descricao,
-              location: oportunidade.local,
-              start: { dateTime: startDate },
-              end: { dateTime: endDate },
-            }),
+        if (accessToken) {
+          const startDate = new Date().toISOString();
+          const endDate = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
+
+          const response = await fetch(
+            "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                summary: oportunidade.titulo,
+                description: oportunidade.descricao,
+                location: oportunidade.local,
+                start: { dateTime: startDate },
+                end: { dateTime: endDate },
+              }),
+            }
+          );
+
+          if (response.ok) {
+            Alert.alert("Sucesso", "Evento adicionado ao Google Calendar!");
+          } else {
+            Alert.alert("Erro", "Não foi possível adicionar ao calendário.");
           }
-        );
-
-        if (response.ok) {
-          Alert.alert("Sucesso", "Evento adicionado ao Google Calendar!");
         } else {
-          Alert.alert("Erro", "Não foi possível adicionar ao calendário.");
+          Alert.alert("Erro", "Token de acesso não encontrado.");
         }
       }
     } catch (error) {
