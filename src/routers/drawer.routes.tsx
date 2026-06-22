@@ -43,14 +43,13 @@ export const DrawerRoutes = () => {
 
   const handleLogout = async () => {
     await removerSessao();
-
     Toast.show({
       type: "success",
       text1: "Sessão encerrada",
       text2: "Até logo!",
     });
 
-    navigation.replace("Inicio");
+    navigation.replace("DrawerRoutes");
   };
 
   return (

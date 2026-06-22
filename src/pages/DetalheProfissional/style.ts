@@ -6,6 +6,7 @@ export const makeStyles = (colors: typeof Colors, fonts: typeof Fonts) =>
     safeArea: {
       flex: 1,
       backgroundColor: colors.fundo,
+      marginTop: 40,
     },
     container: {
       flex: 1,

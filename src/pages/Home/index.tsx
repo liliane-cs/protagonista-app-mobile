@@ -145,44 +145,43 @@ export const Home = () => {
         <IconeCard
           icon="people-outline"
           label="Profissionais"
-          modalText="Monte seu perfil profissional, mostre o que você faz e seja
-              encontrada por quem precisa dos seus serviços — sem precisar pagar
-              por anúncio."
+          modalText="Encontre mulheres profissionais de diversas áreas, conheça suas experiências, faça conexões e amplie sua rede de contatos."
         />
+
         <IconeCard
           icon="briefcase-outline"
           label="Oportunidades"
-          modalText="Monte seu perfil profissional, mostre o que você faz e seja
-          encontrada por quem precisa dos seus serviços — sem precisar pagar
-              por anúncio."
+          modalText="Freelas, contratos e parcerias de pessoas que buscam profissionais
+              como você."
         />
+
         <IconeCard
           icon="book-outline"
           label="Cursos"
-          modalText="Monte seu perfil profissional, mostre o que você faz e seja
-          encontrada por quem precisa dos seus serviços — sem precisar pagar
-              por anúncio."
+          modalText="Acesse cursos, treinamentos e conteúdos educacionais para desenvolver novas habilidades e fortalecer sua trajetória."
         />
+
         <IconeCard
           icon="people-circle-outline"
           label="Rede de Apoio"
-          modalText="Monte seu perfil profissional, mostre o que você faz e seja
-          encontrada por quem precisa dos seus serviços — sem precisar pagar
-          por anúncio."
+          modalText=" Troca de experiências, dicas e indicações entre mulheres que já
+              passaram pelo que você está vivendo agora. Porque crescer junto é
+              mais fácil."
         />
+
         <IconeCard
           icon="newspaper-outline"
           label="Serviços"
-          modalText="Monte seu perfil profissional, mostre o que você faz e seja
-          encontrada por quem precisa dos seus serviços — sem precisar pagar
-          por anúncio."
+          modalText=" Divulgue seus serviços. 
+          Monte seu perfil profissional, mostre o que você faz e seja
+              encontrada por quem precisa dos seus serviços — sem precisar pagar
+              por anúncio."
         />
+
         <IconeCard
           icon="information-circle-outline"
           label="Sobre nós"
-          modalText="Monte seu perfil profissional, mostre o que você faz e seja
-          encontrada por quem precisa dos seus serviços — sem precisar pagar
-          por anúncio."
+          modalText="Conheça nossa missão de promover conexões, oportunidades e desenvolvimento para mulheres em todas as fases de suas carreiras."
         />
       </View>
 
