@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { useAuth } from "../../hook/useAuth";
 import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
@@ -210,9 +210,13 @@ export const MeuPerfil = ({}: MeuPerfilProps) => {
       {
         text: "Galeria",
         onPress: async () => {
-          const permissao = await ImagePicker.requestMediaLibraryPermissionsAsync();
+          const permissao =
+            await ImagePicker.requestMediaLibraryPermissionsAsync();
           if (!permissao.granted) {
-            Toast.show({ type: "error", text1: "Permissão de galeria negada!" });
+            Toast.show({
+              type: "error",
+              text1: "Permissão de galeria negada!",
+            });
             return;
           }
           const resultado = await ImagePicker.launchImageLibraryAsync({

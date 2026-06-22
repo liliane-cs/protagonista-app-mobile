@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text } from "react-native";
 import LottieView from "lottie-react-native";
 import { styles } from "./style";
@@ -13,9 +14,7 @@ function Loading({ mensagem }: LoadingProps) {
         loop
         style={styles.animacao}
       />
-      <Text style={styles.mensagem}>
-        {mensagem || "Carregando..."}
-      </Text>
+      <Text style={styles.mensagem}>{mensagem || "Carregando..."}</Text>
     </View>
   );
 }
